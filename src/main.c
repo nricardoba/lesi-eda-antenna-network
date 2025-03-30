@@ -2,6 +2,9 @@
  * @file main.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
  * @brief Ficheiro principal do programa que gere antenas e efeitos nefastos em uma matriz.
+ * 
+ * repositorio GitHub: https://github.com/ricardobara/TPEDA2425.git
+ * 
  * @version 0.1
  * @date 30-03-2025
  * 
