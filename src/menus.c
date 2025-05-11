@@ -78,7 +78,7 @@ int PreMenu() {
     while (!term) {
 
         // limpa o terminal antes de mostrar o menu
-        limpaTerminal();
+        LimpaTerminal();
         printf("Antes de começar:\n\n");
 
         // opções disponiveis para o utilizador escolher
@@ -97,7 +97,7 @@ int PreMenu() {
         // caso não seja valida, o loop continua até ser escolhida uma opção valida
         else {
             printf("opção invalida!");
-            pausar();
+            Pausar();
         }
     }
 
@@ -120,7 +120,7 @@ int MainMenu() {
     // enquanto não for para terminar o loop
     while (!term) {
         // limpa o terminal antes de mostrar o menu
-        limpaTerminal();
+        LimpaTerminal();
         printf("Escolha uma opção:\n\n");
 
         // opções disponiveis para o utilizador escolher
@@ -145,7 +145,7 @@ int MainMenu() {
         // caso não seja valida, o loop continua até ser escolhida uma opção valida
         else {
             printf("opção invalida!");
-            pausar();
+            Pausar();
         }
     }
 
@@ -207,7 +207,7 @@ Antena* ExecMainMenu(Antena* head, EfeitoNefasto** inicioNef, Matriz m, bool* te
     int op = MainMenu();
 
     // limpa o terminal antes de apresentar no terminal a opção escolhida
-    limpaTerminal();
+    LimpaTerminal();
 
     // processar a opção escolhida pelo utilizador
     switch (op) {

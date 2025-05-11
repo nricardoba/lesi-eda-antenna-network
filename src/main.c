@@ -44,13 +44,13 @@ int main() {
             
             // enquanto o utilizador não selecionar a opção 'sair', o programa executa a função ExecMainMenu, que vai processar a opção do utilizador
             head = ExecMainMenu(head, &inicioNef, m, &term);
-            if (!term) pausar();
+            if (!term) Pausar();
         }
     // coordenadas da matriz invalidas ou
     // não conseguiu ler a matriz do ficheiro ou
     // o utilizador desejou sair
     } else {
-        limpaTerminal();
+        LimpaTerminal();
         printf("Erro a introduzir ou a ler a matriz!\n");
     }
 

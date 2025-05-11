@@ -94,7 +94,7 @@ Antena* AlteraAntena(Antena* head, Matriz m) {
 
     // se existir uma antena com essas coordenadas
     if (aux) {
-        limpaTerminal();
+        LimpaTerminal();
 
         // remove a antena com as coordenadas selecionadas
         head = RemoveAntena(head, xTemp, yTemp);
@@ -186,7 +186,7 @@ Antena* CriaInsereAntena(Antena* head, Matriz m) {
         printf("frequencia: ");
 
         // limpar o buffer para evitar erros ao ler o caracter
-        limpaBuffer();
+        LimpaBuffer();
         scanf("%c", &freqTemp);
 
         // se a frequencia da antena for valida
@@ -407,7 +407,7 @@ bool LerFicheiroMatriz(Antena** head, Matriz* m) {
     char tempChar = EMPTY;
 
     // limpa o buffer, pois vai ler caracteres
-    limpaBuffer();
+    LimpaBuffer();
 
     // percorre o ficheiro e lê os seus caracteres até ao final
     while ((tempChar = fgetc(fp)) != EOF) {

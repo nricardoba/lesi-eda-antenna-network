@@ -11,6 +11,6 @@
 
 #include "includes.h"
 
-void limpaTerminal();
-void limpaBuffer();
-void pausar();
+void LimpaTerminal();
+void LimpaBuffer();
+void Pausar();

@@ -15,7 +15,7 @@
  * @brief Limpa o terminal.
  * 
  */
-void limpaTerminal() {
+void LimpaTerminal() {
 
     // se o SO for windows
     #ifdef _WIN32
@@ -36,7 +36,7 @@ void limpaTerminal() {
  * @brief Limpa o buffer do teclado.
  * 
  */
-void limpaBuffer() {
+void LimpaBuffer() {
     // limpa o buffer do teclado
     while (getchar() != '\n');
 }
@@ -45,8 +45,8 @@ void limpaBuffer() {
  * @brief Limpa o buffer do teclado e depois espera que o utilizador precione enter para continuar.
  * 
  */
-void pausar() {
-    limpaBuffer();
+void Pausar() {
+    LimpaBuffer();
     
     // depois de limpar o buffer do teclado apresenta esta mensagem e depois espera que o utilizador precione enter para continuar
     printf("\nENTER para continuar...");
