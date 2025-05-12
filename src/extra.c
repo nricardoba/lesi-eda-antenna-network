@@ -11,44 +11,24 @@
 
 #include "includes.h"
 
-/**
- * @brief Limpa o terminal.
- * 
- */
 void LimpaTerminal() {
 
-    // se o SO for windows
-    #ifdef _WIN32
-
-        // limpa o terminal
+    #ifdef _WIN32           // windows
         system("cls");
     
-    // se o SO for mac ou linux
-    #else
-
-        // limpa o terminal
+    #else                   // mac ou linux
         system("clear");
         
     #endif
 }
 
-/**
- * @brief Limpa o buffer do teclado.
- * 
- */
 void LimpaBuffer() {
     // limpa o buffer do teclado
     while (getchar() != '\n');
 }
 
-/**
- * @brief Limpa o buffer do teclado e depois espera que o utilizador precione enter para continuar.
- * 
- */
 void Pausar() {
     LimpaBuffer();
-    
-    // depois de limpar o buffer do teclado apresenta esta mensagem e depois espera que o utilizador precione enter para continuar
     printf("\nENTER para continuar...");
     getchar();
 }

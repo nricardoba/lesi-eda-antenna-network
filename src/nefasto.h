@@ -10,13 +10,3 @@
  */
 
 #include "includes.h"
-
-EfeitoNefasto* CriaNefasto(int x, int y);
-EfeitoNefasto* InsereNefasto(EfeitoNefasto* inicio, EfeitoNefasto* novo);
-EfeitoNefasto* GeraNefasto(EfeitoNefasto* inicioNefasto, Antena* head, Matriz m);
-EfeitoNefasto* EncontraNefasto(EfeitoNefasto* inicioNef, int x, int y);
-bool VerificaNefasto(Antena antena1, Antena antena2, int* distancia);
-bool ExisteNefasto(EfeitoNefasto* inicioNef, int x, int y);
-void MostraMatrizNefasto(Antena* inicioAnt, EfeitoNefasto* inicioNef, Matriz m);
-void MostraListaNefasto(EfeitoNefasto* inicio);
-void DestroiListaNefasto(EfeitoNefasto** head);

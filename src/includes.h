@@ -21,8 +21,9 @@
 // headerfiles do projeto
 #include "dados.h"
 #include "func.h"
+#include "nefasto.h"
+#include "termio.h"
 #include "menus.h"
 #include "extra.h"
-#include "nefasto.h"
 
 #endif // MEU_HEADER_H

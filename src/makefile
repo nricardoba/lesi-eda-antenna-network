@@ -1,5 +1,5 @@
-OBJ = func.o extra.o menus.o nefasto.o
-HEADER = includes.h dados.h func.h menus.h extra.h nefasto.h
+OBJ = func.o extra.o menus.o nefasto.o termio.o
+HEADER = includes.h dados.h func.h menus.h extra.h nefasto.h termio.h
 
 all: run
 

@@ -11,28 +11,30 @@
 
 #include "includes.h"
 
-#define TAMNEF 5        // tamanho maximo para existir efeito nefasto
-#define EMPTY '.'       // simbolo para um espaço vazio na matriz
-#define NEF '#'         // simbolo que representa um efeito nefasto
-#define SUBP '@'        // simbolo que representa uma sobreposição de uma antena e um efeito nefasto
-#define SPACE ' '       // simbolo que representa um espaço
+#define NEF '#'
+#define SBP '@'
+#define VAZIO '.'
+#define SPACE ' '
+#define END_LINE '\n'
+
+#define MAX_MATRIZ 30
+#define DIS_NEF 5
 
 typedef struct DadosAntena {
-    char frequencia;
+    char freq;
     int x, y;
 } DadosAntena;
 
 typedef struct Antena {
-    char frequencia;
-    int x, y;
+    DadosAntena dados;
     struct Antena* next;
 } Antena;
 
-typedef struct EfeitoNefasto {
-    int x, y;
-    struct EfeitoNefasto* next;
-} EfeitoNefasto;
+typedef struct Nefasto {
+    DadosAntena dados;
+    struct Nefasto* next;
+} Nefasto;
 
-typedef struct Matriz {
+typedef struct DadosMatriz {
     int linhas, colunas;
-} Matriz;
+} DadosMatriz;

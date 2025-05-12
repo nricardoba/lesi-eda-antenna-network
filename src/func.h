@@ -11,18 +11,13 @@
 
 #include "includes.h"
 
-Antena* CriaAntena(int x, int y, char c);
-Antena* InsereAntena(Antena* head, Antena* novo);
-Antena* AlteraAntena(Antena* head, Matriz m);
-Antena* RemoveAntena(Antena* head, int x, int y);
-Antena* CriaInsereAntena(Antena* head, Matriz m);
-Antena* PerguntaRemoveAntena(Antena* head);
-bool CabeNaMatriz(Matriz m, int x, int y);
-bool ExisteAntena(Antena* head, int x, int y);
-Antena* EncontraAntena(Antena* head, int x, int y);
-void MostraMatrizAntenas(Antena* head, Matriz m);
-void MostraListaAntenas(Antena* head);
-bool LerFicheiroMatriz(Antena** head, Matriz* m);
-void GuardarFicheiroMatriz(Antena* head, Matriz m);
-void DestroiListaAntenas(Antena** head);
+Antena* CriaAntena(DadosAntena valores);
+Antena* InsereAntena(Antena* antenaHead, Antena* novo);
+Antena* RemoveAntena(Antena* antenaHead, int x, int y);
+Antena* EncontraAntena(Antena* antenaHead, int x, int y);
+Antena* DestroiAntenas(Antena* antenaHead);
 bool ValidaCharAntena(char letra);
+
+// matriz
+bool CabeNaMatriz(DadosMatriz matriz, int x, int y);
+bool ValidaMatriz(DadosMatriz matriz);

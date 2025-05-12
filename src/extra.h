@@ -11,6 +11,7 @@
 
 #include "includes.h"
 
+// agora com letra maiuscula
 void LimpaTerminal();
 void LimpaBuffer();
 void Pausar();

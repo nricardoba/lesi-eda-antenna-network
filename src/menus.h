@@ -11,9 +11,5 @@
 
 #include "includes.h"
 
-bool CriaMatriz(Matriz* m);
-bool ExisteMatriz(int x, int y);
 int PreMenu();
 int MainMenu();
-bool ExecPreMenu(Antena** head, EfeitoNefasto** inicioNef, Matriz* m);
-Antena* ExecMainMenu(Antena* head, EfeitoNefasto** inicioNef, Matriz m, bool* term);

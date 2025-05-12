@@ -14,53 +14,78 @@
 
 #include "includes.h"
 
-/**
- * @brief Inicializa a lista ligado das antenas, a lista ligada do efeito nefasto e as dimensões da matriz.
- * 
- * Se for possível, executa as funções ExecPreMenu e ExecMainMenu.
- * No final destroi ambas as listas.
- * 
- * @return int 
- */
 int main() {
-    // inicio da lista ligada das antenas
-    Antena* head = NULL;
+    Antena* antenaHead = NULL;
+    Nefasto* nefastoHead = NULL;
 
-    // inicio da lista ligada das coordenadas do efeito nefasto
-    EfeitoNefasto* inicioNef = NULL;
+    DadosMatriz matriz;
+    matriz.linhas = 0;
+    matriz.colunas = 0;
 
-    // variavel para guardar o numero de linhas e de colunas da matriz, (dimesões da cidade)
-    Matriz m;
-    m.linhas = 0;
-    m.colunas = 0;
+    int op = PreMenu();
+    bool term = false;
 
-    // coordenadas da matriz lidas com sucesso ou
-    // matriz lida do ficheiro com sucesso
-    if (ExecPreMenu(&head, &inicioNef, &m)) {
-        bool term = false;
+    LimpaTerminal();
+    switch (op) {
+        case 1:
+            matriz = CriaMatriz(matriz);
+            break;
+        case 2:
+            antenaHead = LerFicheiroMatriz("antenas.txt", antenaHead, &matriz);
 
-        // enquanto o utilizador não desejar sair do programa, este continua
-        while (!term) {
-            
-            // enquanto o utilizador não selecionar a opção 'sair', o programa executa a função ExecMainMenu, que vai processar a opção do utilizador
-            head = ExecMainMenu(head, &inicioNef, m, &term);
-            if (!term) Pausar();
-        }
-    // coordenadas da matriz invalidas ou
-    // não conseguiu ler a matriz do ficheiro ou
-    // o utilizador desejou sair
-    } else {
-        LimpaTerminal();
-        printf("Erro a introduzir ou a ler a matriz!\n");
+            if (!ValidaMatriz(matriz)) {
+                printf("matriz invalida, vamos criar uma!\n");
+                matriz = CriaMatriz(matriz);
+            }
+            break;
+        default:
+            term = true;
     }
 
-    // mensagem que indica que o programa chegou ao final
+    if (!term) {
+        while (!term) {
+            op = MainMenu();
+            LimpaTerminal();
+
+            switch (op) {
+                case 1:
+                    antenaHead = CriaInsereAntena(antenaHead, matriz);
+                    break;
+                case 2:
+                    printf("[2] AINDA POR FAZER!\n");
+                    break;
+                case 3:
+                    printf("[3] AINDA POR FAZER!\n");
+                    break;
+                case 4:
+                    printf("[4] AINDA POR FAZER!\n");
+                    break;
+                case 5:
+                    if (!MostraMatrizAntenas(antenaHead, matriz))
+                        printf("não ha matriz!\n");
+                    break;
+                case 6:
+                    if (!MostraListaAntenas(antenaHead))
+                        printf("não ha lista de antenas!\n");
+                    break;
+                case 7:
+                    printf("[7] AINDA POR FAZER!\n");
+                    break;
+                case 8:
+                    if (GuardarFicheiroMatriz("antenas.txt", antenaHead, matriz))
+                        printf("dados guardados com sucesso!\n");
+                    else
+                        printf("não foi possivel guardar os dados!\n");
+                    break;
+                default:
+                    term = true;
+            }
+            if (!term) Pausar();
+        }
+    }
+
+    antenaHead = DestroiAntenas(antenaHead);
     printf("programa terminado!\n\n");
 
-    // destroi a lista ligada das coordenadas do efeito nefasto
-    DestroiListaNefasto(&inicioNef);
-
-    // destroi a lista ligada das antenas
-    DestroiListaAntenas(&head);
     return 0;
 }
