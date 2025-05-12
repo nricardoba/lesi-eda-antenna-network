@@ -12,8 +12,11 @@
 #include "includes.h"
 
 Antena* CriaInsereAntena(Antena* antenaHead, DadosMatriz matriz);
+Antena* PerguntaRemoveAntena(Antena* antenaHead);
+Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz);
 bool MostraListaAntenas(Antena* antenaHead);
 bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz);
 Antena* LerFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz* matriz);
 bool GuardarFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz matriz);
 DadosMatriz CriaMatriz(DadosMatriz matriz);
+Coordenadas PedeCoordenadas(char* mensagem);

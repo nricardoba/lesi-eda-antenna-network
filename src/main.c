@@ -52,10 +52,10 @@ int main() {
                     antenaHead = CriaInsereAntena(antenaHead, matriz);
                     break;
                 case 2:
-                    printf("[2] AINDA POR FAZER!\n");
+                    antenaHead = AlteraAntena(antenaHead, matriz);
                     break;
                 case 3:
-                    printf("[3] AINDA POR FAZER!\n");
+                    antenaHead = PerguntaRemoveAntena(antenaHead);
                     break;
                 case 4:
                     printf("[4] AINDA POR FAZER!\n");

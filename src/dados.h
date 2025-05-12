@@ -27,14 +27,22 @@ typedef struct DadosAntena {
 
 typedef struct Antena {
     DadosAntena dados;
+    struct Antena* prev;
     struct Antena* next;
 } Antena;
 
 typedef struct Nefasto {
     DadosAntena dados;
+    Antena* antenaPai;
+    struct Nefasto* primo;
+    struct Nefasto* prev;
     struct Nefasto* next;
 } Nefasto;
 
 typedef struct DadosMatriz {
     int linhas, colunas;
 } DadosMatriz;
+
+typedef struct Coordenadas {
+    int x, y;
+} Coordenadas;

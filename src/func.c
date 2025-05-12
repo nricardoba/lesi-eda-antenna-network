@@ -21,6 +21,7 @@ Antena* CriaAntena(DadosAntena valores) {
         aux->dados.y = valores.y;
 
         aux->next = NULL;
+        aux->prev = NULL;
     }
 
     return aux;
@@ -45,38 +46,27 @@ Antena* InsereAntena(Antena* antenaHead, Antena* novo) {
 
     // inserir a nova antena no final da lista
     aux->next = novo;
+    novo->prev = aux;
 
     return antenaHead;
 }
 
-// verificar se da para eliminar a head ou a seguinte
-Antena* RemoveAntena(Antena* antenaHead, int x, int y) {
+Antena* RemoveAntena(Antena* antenaHead, Antena* alvo) {
     // se não houver lista, não ha nada para remover
-    if (!antenaHead) return NULL;
+    if (!antenaHead || !alvo) return antenaHead;
 
     // no caso de a antena a remover se o inicio da lista
-    if (antenaHead->dados.x == x && antenaHead->dados.y == y) {
-        Antena* aux = antenaHead;
+    if (antenaHead == alvo) {
         antenaHead = antenaHead->next;
-        free(aux);
+        if (antenaHead) antenaHead->prev = NULL;
+        free(alvo);
 
         return antenaHead;
     }
 
-    Antena* atual = antenaHead->next;
-    Antena* anterior = antenaHead;
-
-    while (atual) {
-        if (atual->dados.x == x && atual->dados.y == y) {
-            anterior->next = atual->next;
-            free(atual);
-
-            return antenaHead;
-        }
-
-        anterior = atual;
-        atual = atual->next;
-    }
+    if (alvo->prev) alvo->prev->next = alvo->next;
+    if (alvo->next) alvo->next->prev = alvo->prev;
+    free(alvo);
 
     return antenaHead;
 }

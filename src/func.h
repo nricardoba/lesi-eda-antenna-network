@@ -13,7 +13,7 @@
 
 Antena* CriaAntena(DadosAntena valores);
 Antena* InsereAntena(Antena* antenaHead, Antena* novo);
-Antena* RemoveAntena(Antena* antenaHead, int x, int y);
+Antena* RemoveAntena(Antena* antenaHead, Antena* alvo);
 Antena* EncontraAntena(Antena* antenaHead, int x, int y);
 Antena* DestroiAntenas(Antena* antenaHead);
 bool ValidaCharAntena(char letra);

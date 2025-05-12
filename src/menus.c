@@ -48,10 +48,13 @@ int MainMenu() {
         printf("1 - Adicionar antena\n");
         printf("2 - Alterar antena\n");
         printf("3 - Remover antena\n\n");
+
         printf("4 - Mostrar matriz com efeito nefasto\n");
         printf("5 - Mostrar matriz sem efeito nefasto\n\n");
+
         printf("6 - Mostra lista das Antenas\n");
         printf("7 - Mostra lista do Efeito Nefasto\n\n");
+        
         printf("8 - Guardar a matriz em ficheiro\n");
         printf("\n0 - Sair\n\n");
 

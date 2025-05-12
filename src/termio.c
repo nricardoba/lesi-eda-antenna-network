@@ -12,24 +12,83 @@
 #include "includes.h"
 
 Antena* CriaInsereAntena(Antena* antenaHead, DadosMatriz matriz) {
-    DadosAntena temp;
+    Coordenadas coorTemp = PedeCoordenadas("Coordenadas:\n");
 
-    printf("x: ");
-    scanf("%d", &temp.x);
-    printf("y: ");
-    scanf("%d", &temp.y);
-
-    if (EncontraAntena(antenaHead, temp.x, temp.y) || !CabeNaMatriz(matriz, temp.x, temp.y))
+    if (EncontraAntena(antenaHead, coorTemp.x, coorTemp.y) || !CabeNaMatriz(matriz, coorTemp.x, coorTemp.y))
         return antenaHead;
+
+    DadosAntena dadosTemp;
+    dadosTemp.x = coorTemp.x;
+    dadosTemp.y = coorTemp.y;
 
     printf("frequencia: ");
     LimpaBuffer();
-    scanf("%c", &temp.freq);
+    scanf("%c", &dadosTemp.freq);
 
-    if (!ValidaCharAntena(temp.freq)) return antenaHead;
+    if (!ValidaCharAntena(dadosTemp.freq)) return antenaHead;
 
-    Antena* aux = CriaAntena(temp);
+    Antena* aux = CriaAntena(dadosTemp);
     antenaHead = InsereAntena(antenaHead, aux);
+
+    return antenaHead;
+}
+
+Antena* PerguntaRemoveAntena(Antena* antenaHead) {
+    if (!antenaHead) {
+        printf("não existe uma lista!\n");
+        return NULL;
+    }
+
+    Coordenadas coorTemp = PedeCoordenadas("que antena pretende remover?\n");
+    Antena* aux = EncontraAntena(antenaHead, coorTemp.x, coorTemp.y);
+
+    if (!aux) {
+        printf("não existe nenhuma antena com essas coordenadas!\n");
+        return antenaHead;
+    }
+
+    antenaHead = RemoveAntena(antenaHead, aux);
+    printf("antena removida com sucesso!\n");
+    
+    return antenaHead;
+}
+
+Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz) {
+    if (!antenaHead) {
+        printf("não existe uma lista!\n");
+        return NULL;
+    }
+
+    Coordenadas coorTemp = PedeCoordenadas("que antena pretende alterar?");
+    Antena* aux = EncontraAntena(antenaHead, coorTemp.x, coorTemp.y);
+
+    if (!aux) {
+        printf("não existe nenhuma antena com essas coordenadas!\n");
+        return antenaHead;
+    }
+
+    coorTemp = PedeCoordenadas("Novos dados da antena:");
+    if (!CabeNaMatriz(matriz, coorTemp.x, coorTemp.y) || EncontraAntena(antenaHead, coorTemp.x, coorTemp.y)) {
+        printf("coordenadas invalidas!\n");
+        return antenaHead;
+    }
+
+    char freqTemp;
+    printf("frequencia: ");
+    LimpaBuffer();
+    scanf("%c", &freqTemp);
+    printf("\n");
+
+    if (!ValidaCharAntena(freqTemp)) {
+        printf("frequencia invalida!\n");
+        return antenaHead;
+    }
+
+    aux->dados.x = coorTemp.x;
+    aux->dados.y = coorTemp.y;
+    aux->dados.freq = freqTemp;
+
+    printf("dados alterados com sucesso!\n");
 
     return antenaHead;
 }
@@ -159,4 +218,17 @@ DadosMatriz CriaMatriz(DadosMatriz matriz) {
 
     matriz = temp;
     return matriz;
+}
+
+Coordenadas PedeCoordenadas(char* mensagem) {
+    Coordenadas aux;
+
+    printf("%s\n", mensagem);
+    printf("x: ");
+    scanf("%d", &aux.x);
+    printf("y: ");
+    scanf("%d", &aux.y);
+    printf("\n");
+
+    return aux;
 }
