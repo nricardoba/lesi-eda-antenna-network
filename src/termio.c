@@ -108,6 +108,20 @@ bool MostraListaAntenas(Antena* antenaHead) {
     return true;
 }
 
+bool MostraListaNefasto(Nefasto* nefastoHead) {
+    if (!nefastoHead) return false;
+
+    Nefasto* aux = nefastoHead;
+    int contador = 0;
+
+    while (aux) {
+        printf("[%d]: %c (%c) --> x: %d, y: %d\n", contador++, NEF, aux->dados.freq, aux->dados.x, aux->dados.y);
+        aux = aux->next;
+    }
+
+    return true;
+}
+
 bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz) {
     if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
 
@@ -117,6 +131,27 @@ bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz) {
 
             char temp = VAZIO;
             if (aux) temp = aux->dados.freq;
+            printf("%c", temp);
+        }
+        printf("\n");
+    }
+    puts("\n");
+
+    return true;
+}
+
+bool MostraMatrizNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz matriz) {
+    if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
+
+    for (int i = 1; i <= matriz.linhas; i++) {
+        for (int j = 1; j <= matriz.colunas; j++) {
+            Antena* antAux = EncontraAntena(antenaHead, i, j);
+            Nefasto* nefAux = EncontraNefasto(nefastoHead, i, j);
+
+            char temp = VAZIO;
+            if (antAux && nefAux) temp = SBP;
+            else if (antAux) temp = antAux->dados.freq;
+            else if (nefAux) temp = NEF;
             printf("%c", temp);
         }
         printf("\n");

@@ -20,8 +20,8 @@ Antena* CriaAntena(DadosAntena valores) {
         aux->dados.x = valores.x;
         aux->dados.y = valores.y;
 
-        aux->next = NULL;
         aux->prev = NULL;
+        aux->next = NULL;
     }
 
     return aux;

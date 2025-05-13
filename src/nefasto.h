@@ -10,3 +10,12 @@
  */
 
 #include "includes.h"
+
+Nefasto* CriaNefasto(DadosAntena valores);
+Nefasto* InsereNefasto(Nefasto* nefastoHead, Nefasto* novo);
+Nefasto* EncontraNefasto(Nefasto* nefastoHead, int x, int y);
+Nefasto* CriaInsereNefasto(Nefasto* nefastoHead, DadosMatriz matriz, Antena atual, Antena comparador);
+Nefasto* GeraNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz matriz);
+Nefasto* DestroiNefasto(Nefasto* nefastoHead);
+bool CausaNefasto(Antena a1, Antena a2);
+bool ExisteNefasto(Nefasto* nefastoHead, int x, int y, Antena* antenaPai);

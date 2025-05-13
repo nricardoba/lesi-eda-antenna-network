@@ -37,6 +37,9 @@ int main() {
                 printf("matriz invalida, vamos criar uma!\n");
                 matriz = CriaMatriz(matriz);
             }
+
+            nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
+
             break;
         default:
             term = true;
@@ -50,6 +53,7 @@ int main() {
             switch (op) {
                 case 1:
                     antenaHead = CriaInsereAntena(antenaHead, matriz);
+                    nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
                     break;
                 case 2:
                     antenaHead = AlteraAntena(antenaHead, matriz);
@@ -58,7 +62,8 @@ int main() {
                     antenaHead = PerguntaRemoveAntena(antenaHead);
                     break;
                 case 4:
-                    printf("[4] AINDA POR FAZER!\n");
+                    if (!MostraMatrizNefasto(antenaHead, nefastoHead, matriz))
+                        printf("não ha matriz!\n");
                     break;
                 case 5:
                     if (!MostraMatrizAntenas(antenaHead, matriz))
@@ -69,7 +74,8 @@ int main() {
                         printf("não ha lista de antenas!\n");
                     break;
                 case 7:
-                    printf("[7] AINDA POR FAZER!\n");
+                    if (!MostraListaNefasto(nefastoHead))
+                        printf("não ha lista de antenas!\n");
                     break;
                 case 8:
                     if (GuardarFicheiroMatriz("antenas.txt", antenaHead, matriz))
@@ -80,10 +86,17 @@ int main() {
                 default:
                     term = true;
             }
+
+            if (op == 2 || op == 3) {
+                nefastoHead = DestroiNefasto(nefastoHead);
+                nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
+            }
+
             if (!term) Pausar();
         }
     }
 
+    nefastoHead = DestroiNefasto(nefastoHead);
     antenaHead = DestroiAntenas(antenaHead);
     printf("programa terminado!\n\n");
 
