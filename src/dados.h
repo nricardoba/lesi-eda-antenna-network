@@ -30,27 +30,20 @@ typedef struct Nefasto {
     struct Nefasto* next;
 } Nefasto;
 
+typedef struct AdjAntena {
+    DadosAntena dados;
+    struct AdjAntena* prev;     // ainda não sei se é necessario
+    struct AdjAntena* next;
+} AdjAntena;
+
 // depois posso colocar o numero de nefastos
 typedef struct Antena {
     DadosAntena dados;
+    AdjAntena* adjHead;
     Nefasto* nefHead;
     struct Antena* prev;
     struct Antena* next;
 } Antena;
-
-// depois posso colocar o numerop de antenas
-typedef struct TipoFreq {
-    char freq;
-    Antena* antHead;
-    struct TipoFreq* next;
-} TipoFreq;
-
-typedef struct Grafo {
-    int totalFreq;
-    int totalAntenas;
-    int totalNefastos;
-    TipoFreq* grafoHead;
-} Grafo;
 
 // estruturas auxiliares
 typedef struct DadosMatriz {
