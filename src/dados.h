@@ -25,20 +25,34 @@ typedef struct DadosAntena {
     int x, y;
 } DadosAntena;
 
+typedef struct Nefasto {
+    DadosAntena dados;
+    struct Nefasto* next;
+} Nefasto;
+
+// depois posso colocar o numero de nefastos
 typedef struct Antena {
     DadosAntena dados;
+    Nefasto* nefHead;
     struct Antena* prev;
     struct Antena* next;
 } Antena;
 
-typedef struct Nefasto {
-    DadosAntena dados;
-    Antena* antenaPai;
-    struct Nefasto* primo;
-    struct Nefasto* prev;
-    struct Nefasto* next;
-} Nefasto;
+// depois posso colocar o numerop de antenas
+typedef struct TipoFreq {
+    char freq;
+    Antena* antHead;
+    struct TipoFreq* next;
+} TipoFreq;
 
+typedef struct Grafo {
+    int totalFreq;
+    int totalAntenas;
+    int totalNefastos;
+    TipoFreq* grafoHead;
+} Grafo;
+
+// estruturas auxiliares
 typedef struct DadosMatriz {
     int linhas, colunas;
 } DadosMatriz;

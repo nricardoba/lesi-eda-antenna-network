@@ -131,7 +131,7 @@ bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz) {
 
             char temp = VAZIO;
             if (aux) temp = aux->dados.freq;
-            printf("%c", temp);
+            printf(" %c", temp);
         }
         printf("\n");
     }
@@ -152,7 +152,7 @@ bool MostraMatrizNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz m
             if (antAux && nefAux) temp = SBP;
             else if (antAux) temp = antAux->dados.freq;
             else if (nefAux) temp = NEF;
-            printf("%c", temp);
+            printf(" %c", temp);
         }
         printf("\n");
     }

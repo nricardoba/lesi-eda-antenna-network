@@ -27,7 +27,6 @@ Antena* CriaAntena(DadosAntena valores) {
     return aux;
 }
 
-// depois fazer uma versão em que insere ordenado
 Antena* InsereAntena(Antena* antenaHead, Antena* novo) {
     // se não existir uma nova antena, não ha nada para inserir
     if (!novo) return antenaHead;
