@@ -18,4 +18,4 @@ Nefasto* CriaInsereNefasto(Nefasto* nefastoHead, DadosMatriz matriz, Antena atua
 Nefasto* GeraNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz matriz);
 Nefasto* DestroiNefasto(Nefasto* nefastoHead);
 bool CausaNefasto(Antena a1, Antena a2);
-bool ExisteNefasto(Nefasto* nefastoHead, int x, int y, Antena* antenaPai);
+bool ExisteNefasto(Nefasto* nefastoHead, int x, int y);

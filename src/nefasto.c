@@ -20,9 +20,6 @@ Nefasto* CriaNefasto(DadosAntena valores) {
         aux->dados.x = valores.x;
         aux->dados.y = valores.y;
 
-        aux->antenaPai = NULL;
-        aux->primo = NULL;
-        aux->prev = NULL;
         aux->next = NULL;
     }
 
@@ -43,7 +40,6 @@ Nefasto* InsereNefasto(Nefasto* nefastoHead, Nefasto* novo) {
     }
 
     aux->next = novo;
-    novo->prev = aux;
 
     return nefastoHead;
 }
@@ -69,7 +65,7 @@ Nefasto* CriaInsereNefasto(Nefasto* nefastoHead, DadosMatriz matriz, Antena atua
 
     // se já existir um efeito nefasto nessas coordenadas com essa antena pai,
     // ou as coordenadas não pertencerem à matriz, não ha nada a registar
-    if (ExisteNefasto(nefastoHead, novoX, novoY, &atual) || !CabeNaMatriz(matriz, novoX, novoY))
+    if (ExisteNefasto(nefastoHead, novoX, novoY) || !CabeNaMatriz(matriz, novoX, novoY))
         return nefastoHead;
 
     DadosAntena dadosTemp;
@@ -80,7 +76,6 @@ Nefasto* CriaInsereNefasto(Nefasto* nefastoHead, DadosMatriz matriz, Antena atua
     Nefasto* aux = CriaNefasto(dadosTemp);
     if (!aux) return nefastoHead;
 
-    aux->antenaPai = &atual;
     nefastoHead = InsereNefasto(nefastoHead, aux);
 
     return nefastoHead;
@@ -133,12 +128,12 @@ bool CausaNefasto(Antena a1, Antena a2) {
     return true;
 }
 
-bool ExisteNefasto(Nefasto* nefastoHead, int x, int y, Antena* antenaPai) {
-    if (!nefastoHead || !antenaPai) return false;
+bool ExisteNefasto(Nefasto* nefastoHead, int x, int y) {
+    if (!nefastoHead) return false;
 
     Nefasto* aux = nefastoHead;
     while (aux) {
-        if (aux->dados.x == x && aux->dados.y == y && aux->antenaPai == antenaPai)
+        if (aux->dados.x == x && aux->dados.y == y)
             return true;
 
         aux = aux->next;

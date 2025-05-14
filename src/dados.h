@@ -25,25 +25,25 @@ typedef struct DadosAntena {
     int x, y;
 } DadosAntena;
 
-typedef struct Nefasto {
+typedef struct Antena {
     DadosAntena dados;
-    struct Nefasto* next;
-} Nefasto;
+    struct AdjAntena* adjHead;
+    struct Nefasto* nefHead;
+    struct Antena* prev;
+    struct Antena* next;
+} Antena;
 
 typedef struct AdjAntena {
     DadosAntena dados;
+    struct Antena* original;    // funciona?
     struct AdjAntena* prev;     // ainda não sei se é necessario
     struct AdjAntena* next;
 } AdjAntena;
 
-// depois posso colocar o numero de nefastos
-typedef struct Antena {
+typedef struct Nefasto {
     DadosAntena dados;
-    AdjAntena* adjHead;
-    Nefasto* nefHead;
-    struct Antena* prev;
-    struct Antena* next;
-} Antena;
+    struct Nefasto* next;
+} Nefasto;
 
 // estruturas auxiliares
 typedef struct DadosMatriz {
