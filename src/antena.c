@@ -144,7 +144,6 @@ Adj* InsereAdj(Adj* adjHead, Adj* novo) {
     return adjHead;
 }
 
-// sabemos que o alvo existe ou é null, por causa da função EncontraAdj
 Adj* RemoveAdj(Adj* adjHead, Adj* alvo) {
     if (!adjHead || !alvo) return adjHead;
 

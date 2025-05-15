@@ -53,7 +53,6 @@ Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y) {
     return NULL;
 }
 
-// posso ter de melhorar
 bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
     if (!atual || !comp) return false;
 

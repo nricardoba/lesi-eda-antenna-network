@@ -21,8 +21,11 @@ int main() {
     matriz.linhas = 0;
     matriz.colunas = 0;
 
-    int op = PreMenu();
     bool term = false;
+
+    #pragma region Pre Menu
+
+    int op = PreMenu();
 
     LimpaTerminal();
     switch (op) {
@@ -43,6 +46,9 @@ int main() {
         default:
             term = true;
     }
+
+    #pragma endregion
+    #pragma region Main Menu
 
     if (!term) {
         while (!term) {
@@ -88,6 +94,8 @@ int main() {
             if (!term) Pausar();
         }
     }
+
+    #pragma endregion
 
     grafoHead = DestroiAntenas(grafoHead);
     printf("programa terminado!\n\n");
