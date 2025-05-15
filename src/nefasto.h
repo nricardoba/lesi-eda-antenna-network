@@ -13,7 +13,7 @@
 
 Nefasto* CriaNefasto(DadosAntena valores);
 Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo);
-Nefasto* EncontraNefasto(Nefasto* nefhead, int x, int y);
+Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y);
 bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz);
 bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz);
 Nefasto* DestroiNefasto(Nefasto* nefHead);

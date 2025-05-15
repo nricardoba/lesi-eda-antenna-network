@@ -54,5 +54,6 @@ typedef struct Adj {
 
 typedef struct Nefasto {
     DadosAntena dados;
+    struct Antena* parente;
     struct Nefasto* next;
 } Nefasto;

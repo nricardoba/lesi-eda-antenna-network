@@ -17,6 +17,7 @@ Nefasto* CriaNefasto(DadosAntena valores) {
     if (aux) {
         aux->dados = valores;
 
+        aux->parente = NULL;
         aux->next = NULL;
     }
 
@@ -41,10 +42,10 @@ Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo) {
     return nefHead;
 }
 
-Nefasto* EncontraNefasto(Nefasto* nefhead, int x, int y) {
+Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y) {
     Nefasto* aux = nefhead;
     while (aux) {
-        if (aux->dados.x == x && aux->dados.y == y) return aux;
+        if (aux->parente == parente && aux->dados.x == x && aux->dados.y == y) return aux;
 
         aux = aux->next;
     }
@@ -75,7 +76,7 @@ bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
         int novoX = a->dados.x + (a->dados.x - b->dados.x);
         int novoY = a->dados.y + (a->dados.y - b->dados.y);
 
-        if (!EncontraNefasto(atual->nefHead, novoX, novoY) && CabeNaMatriz(matriz, novoX, novoY)) {
+        if (!EncontraNefasto(atual->nefHead, comp, novoX, novoY) && CabeNaMatriz(matriz, novoX, novoY)) {
             DadosAntena dadosTemp;
             dadosTemp.freq = atual->dados.freq;
             dadosTemp.x = novoX;
@@ -83,6 +84,7 @@ bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
 
             Nefasto* aux = CriaNefasto(dadosTemp);
             atual->nefHead = InsereNefasto(atual->nefHead, aux);
+            if (aux) aux->parente = comp;
         }
     }
 
