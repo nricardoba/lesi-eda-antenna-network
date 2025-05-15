@@ -52,8 +52,10 @@ Nefasto* EncontraNefasto(Nefasto* nefhead, int x, int y) {
     return NULL;
 }
 
-// vais ter de fazer os dois ao mesmo tempo
+// posso ter de melhorar
 bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
+    if (!atual || !comp) return false;
+
     // se as duas antenas não causarem efeito nefasto, não ha nada para registar
     if (!CausaNefasto(atual, comp)) return false;
 
@@ -73,23 +75,18 @@ bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
         int novoX = a->dados.x + (a->dados.x - b->dados.x);
         int novoY = a->dados.y + (a->dados.y - b->dados.y);
 
-        if (EncontraNefasto(a->nefHead, novoX, novoY) || !CabeNaMatriz(matriz, novoX, novoY))
-            return false;
+        if (!EncontraNefasto(atual->nefHead, novoX, novoY) && CabeNaMatriz(matriz, novoX, novoY)) {
+            DadosAntena dadosTemp;
+            dadosTemp.freq = atual->dados.freq;
+            dadosTemp.x = novoX;
+            dadosTemp.y = novoY;
 
-        // não sei se é necessario
-        DadosAntena dadosTemp;
-        dadosTemp.freq = a->dados.freq;
-        dadosTemp.x = novoX;
-        dadosTemp.y = novoY;
-
-        Nefasto* aux = CriaNefasto(dadosTemp);
-        if (!aux) return false;
-
-        a->nefHead = InsereNefasto(a->nefHead, aux);
-        if (!a->nefHead) return false;
-
-        return true;
+            Nefasto* aux = CriaNefasto(dadosTemp);
+            atual->nefHead = InsereNefasto(atual->nefHead, aux);
+        }
     }
+
+    return true;
 }
 
 bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz) {
