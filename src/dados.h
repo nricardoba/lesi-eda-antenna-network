@@ -20,32 +20,13 @@
 #define MAX_MATRIZ 30
 #define DIS_NEF 5
 
+#pragma region Estruturas de Dados
+
 typedef struct DadosAntena {
     char freq;
     int x, y;
 } DadosAntena;
 
-typedef struct Antena {
-    DadosAntena dados;
-    struct AdjAntena* adjHead;
-    struct Nefasto* nefHead;
-    struct Antena* prev;
-    struct Antena* next;
-} Antena;
-
-typedef struct AdjAntena {
-    DadosAntena dados;
-    struct Antena* original;    // funciona?
-    struct AdjAntena* prev;     // ainda não sei se é necessario
-    struct AdjAntena* next;
-} AdjAntena;
-
-typedef struct Nefasto {
-    DadosAntena dados;
-    struct Nefasto* next;
-} Nefasto;
-
-// estruturas auxiliares
 typedef struct DadosMatriz {
     int linhas, colunas;
 } DadosMatriz;
@@ -53,3 +34,25 @@ typedef struct DadosMatriz {
 typedef struct Coordenadas {
     int x, y;
 } Coordenadas;
+
+#pragma endregion
+
+typedef struct Antena {
+    DadosAntena dados;
+    struct Adj* adjHead;
+    struct Nefasto* nefHead;
+    struct Antena* prev;
+    struct Antena* next;
+} Antena;
+
+typedef struct Adj {
+    DadosAntena dados;
+    struct Antena* original;
+    struct Adj* prev;     // ainda não sei se é necessario
+    struct Adj* next;
+} Adj;
+
+typedef struct Nefasto {
+    DadosAntena dados;
+    struct Nefasto* next;
+} Nefasto;

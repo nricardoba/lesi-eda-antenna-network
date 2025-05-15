@@ -14,11 +14,8 @@
 Nefasto* CriaNefasto(DadosAntena valores) {
     Nefasto* aux = (Nefasto*)malloc(sizeof(Nefasto));
 
-    // se conseguiu alocar memoria
     if (aux) {
-        aux->dados.freq = valores.freq;
-        aux->dados.x = valores.x;
-        aux->dados.y = valores.y;
+        aux->dados = valores;
 
         aux->next = NULL;
     }
@@ -26,26 +23,26 @@ Nefasto* CriaNefasto(DadosAntena valores) {
     return aux;
 }
 
-Nefasto* InsereNefasto(Nefasto* nefastoHead, Nefasto* novo) {
-    if (!novo) return nefastoHead;
+Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo) {
+    if (!novo) return nefHead;
 
-    if (!nefastoHead) {
-        nefastoHead = novo;
-        return nefastoHead;
+    if (!nefHead) {
+        nefHead = novo;
+        return nefHead;
     }
 
-    Nefasto* aux = nefastoHead;
+    Nefasto* aux = nefHead;
     while (aux->next) {
         aux = aux->next;
     }
 
     aux->next = novo;
 
-    return nefastoHead;
+    return nefHead;
 }
 
-Nefasto* EncontraNefasto(Nefasto* nefastoHead, int x, int y) {
-    Nefasto* aux = nefastoHead;
+Nefasto* EncontraNefasto(Nefasto* nefhead, int x, int y) {
+    Nefasto* aux = nefhead;
     while (aux) {
         if (aux->dados.x == x && aux->dados.y == y) return aux;
 
@@ -55,88 +52,105 @@ Nefasto* EncontraNefasto(Nefasto* nefastoHead, int x, int y) {
     return NULL;
 }
 
-Nefasto* CriaInsereNefasto(Nefasto* nefastoHead, DadosMatriz matriz, Antena atual, Antena comparador) {
+// vais ter de fazer os dois ao mesmo tempo
+bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
     // se as duas antenas não causarem efeito nefasto, não ha nada para registar
-    if (!CausaNefasto(atual, comparador)) return nefastoHead;
+    if (!CausaNefasto(atual, comp)) return false;
 
-    // criação das coordenadas do novo efeito nefasto
-    int novoX = atual.dados.x + (atual.dados.x - comparador.dados.x);
-    int novoY = atual.dados.y + (atual.dados.y - comparador.dados.y);
+    for (int i = 0; i < 2; i++) {
+        Antena* a = NULL;
+        Antena* b = NULL;
 
-    // se já existir um efeito nefasto nessas coordenadas com essa antena pai,
-    // ou as coordenadas não pertencerem à matriz, não ha nada a registar
-    if (ExisteNefasto(nefastoHead, novoX, novoY) || !CabeNaMatriz(matriz, novoX, novoY))
-        return nefastoHead;
+        if (i == 0) {
+            a = atual;
+            b = comp;
+        }
+        else if (i == 1) {
+            a = comp;
+            b = atual;
+        }
 
-    DadosAntena dadosTemp;
-    dadosTemp.x = novoX;
-    dadosTemp.y = novoY;
-    dadosTemp.freq = atual.dados.freq;
+        int novoX = a->dados.x + (a->dados.x - b->dados.x);
+        int novoY = a->dados.y + (a->dados.y - b->dados.y);
 
-    Nefasto* aux = CriaNefasto(dadosTemp);
-    if (!aux) return nefastoHead;
+        if (EncontraNefasto(a->nefHead, novoX, novoY) || !CabeNaMatriz(matriz, novoX, novoY))
+            return false;
 
-    nefastoHead = InsereNefasto(nefastoHead, aux);
+        // não sei se é necessario
+        DadosAntena dadosTemp;
+        dadosTemp.freq = a->dados.freq;
+        dadosTemp.x = novoX;
+        dadosTemp.y = novoY;
 
-    return nefastoHead;
+        Nefasto* aux = CriaNefasto(dadosTemp);
+        if (!aux) return false;
+
+        a->nefHead = InsereNefasto(a->nefHead, aux);
+        if (!a->nefHead) return false;
+
+        return true;
+    }
 }
 
-Nefasto* GeraNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz matriz) {
-    if (!antenaHead) return NULL;
+bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz) {
+    if (!grafoHead) return false;
 
-    Antena* atual = antenaHead;
+    Antena* atual = grafoHead;
     while (atual) {
-        Antena* comparador = antenaHead;
-        while (comparador) {
-            nefastoHead = CriaInsereNefasto(nefastoHead, matriz, *atual, *comparador);
+        Antena* comp = grafoHead;
+        while (comp) {
+            CriaInsereNefasto(atual, comp, matriz);
 
-            comparador = comparador->next;
+            comp = comp->next;
         }
 
         atual = atual->next;
     }
-
-    return nefastoHead;
 }
 
-Nefasto* DestroiNefasto(Nefasto* nefastoHead) {
-    if (!nefastoHead) return NULL;
+Nefasto* DestroiNefasto(Nefasto* nefHead) {
+    if (!nefHead) return NULL;
 
     Nefasto* aux = NULL;
-    while (nefastoHead) {
-        aux = nefastoHead;
-        nefastoHead = nefastoHead->next;
+    while (nefHead) {
+        aux = nefHead;
+        nefHead = nefHead->next;
         free(aux);
     }
 
-    return nefastoHead;
+    return nefHead;
 }
 
-bool CausaNefasto(Antena a1, Antena a2) {
-    // se não tiverem a mesma frequencia, não ha efeito nefasto
-    if (a1.dados.freq != a2.dados.freq) return false;
-
+bool CausaNefasto(Antena* a, Antena* b) {
     // são a mesma antena
-    if (a1.dados.x == a2.dados.x && a1.dados.y == a2.dados.y) return false;
+    if (a == b) return false;
+
+    // se não tiverem a mesma frequencia, não ha efeito nefasto
+    if (a->dados.freq != b->dados.freq) return false;
 
     // valor absoluto
-    int difX = abs(a1.dados.x - a2.dados.x);
-    int difY = abs(a1.dados.y - a2.dados.y);
+    int difX = abs(a->dados.x - b->dados.x);
+    int difY = abs(a->dados.y - b->dados.y);
 
     if (difX + difY > DIS_NEF) return false;
 
     return true;
 }
 
-bool ExisteNefasto(Nefasto* nefastoHead, int x, int y) {
-    if (!nefastoHead) return false;
+bool ExisteNefasto(Antena* grafoHead, int x, int y) {
+    if (!grafoHead) return false;
 
-    Nefasto* aux = nefastoHead;
-    while (aux) {
-        if (aux->dados.x == x && aux->dados.y == y)
-            return true;
+    Antena* antAux = grafoHead;
+    while (antAux) {
+        Nefasto* nefAux = antAux->nefHead;
+        while (nefAux) {
+            if (nefAux->dados.x == x && nefAux->dados.y == y)
+                return true;
 
-        aux = aux->next;
+            nefAux = nefAux->next;
+        }
+
+        antAux = antAux->next;
     }
 
     return false;

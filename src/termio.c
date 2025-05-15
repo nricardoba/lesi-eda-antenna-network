@@ -11,11 +11,13 @@
 
 #include "includes.h"
 
-Antena* CriaInsereAntena(Antena* antenaHead, DadosMatriz matriz) {
+Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
     Coordenadas coorTemp = PedeCoordenadas("Coordenadas:\n");
 
-    if (EncontraAntena(antenaHead, coorTemp.x, coorTemp.y) || !CabeNaMatriz(matriz, coorTemp.x, coorTemp.y))
-        return antenaHead;
+    if (EncontraAntena(grafoHead, coorTemp.x, coorTemp.y) || !CabeNaMatriz(matriz, coorTemp.x, coorTemp.y)) {
+        printf("Coordenadas Invalidas!\n");
+        return grafoHead;
+    }
 
     DadosAntena dadosTemp;
     dadosTemp.x = coorTemp.x;
@@ -25,52 +27,58 @@ Antena* CriaInsereAntena(Antena* antenaHead, DadosMatriz matriz) {
     LimpaBuffer();
     scanf("%c", &dadosTemp.freq);
 
-    if (!ValidaCharAntena(dadosTemp.freq)) return antenaHead;
+    if (!ValidaCharAntena(dadosTemp.freq)) {
+        printf("frequencia invalida!\n");
+        return grafoHead;
+    }
 
     Antena* aux = CriaAntena(dadosTemp);
-    antenaHead = InsereAntena(antenaHead, aux);
+    grafoHead = InsereAntena(grafoHead, aux);
 
-    return antenaHead;
+    return grafoHead;
 }
 
-Antena* PerguntaRemoveAntena(Antena* antenaHead) {
-    if (!antenaHead) {
+Antena* PerguntaRemoveAntena(Antena* grafoHead) {
+    if (!grafoHead) {
         printf("não existe uma lista!\n");
         return NULL;
     }
 
     Coordenadas coorTemp = PedeCoordenadas("que antena pretende remover?\n");
-    Antena* aux = EncontraAntena(antenaHead, coorTemp.x, coorTemp.y);
+    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
 
     if (!aux) {
         printf("não existe nenhuma antena com essas coordenadas!\n");
-        return antenaHead;
+        return grafoHead;
     }
 
-    antenaHead = RemoveAntena(antenaHead, aux);
+    grafoHead = RemoveAntena(grafoHead, aux);
+
+    // remover esta antena das adjacencias das outras antenas
+
     printf("antena removida com sucesso!\n");
     
-    return antenaHead;
+    return grafoHead;
 }
 
-Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz) {
-    if (!antenaHead) {
+Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
+    if (!grafoHead) {
         printf("não existe uma lista!\n");
         return NULL;
     }
 
     Coordenadas coorTemp = PedeCoordenadas("que antena pretende alterar?");
-    Antena* aux = EncontraAntena(antenaHead, coorTemp.x, coorTemp.y);
+    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
 
     if (!aux) {
         printf("não existe nenhuma antena com essas coordenadas!\n");
-        return antenaHead;
+        return grafoHead;
     }
 
     coorTemp = PedeCoordenadas("Novos dados da antena:");
-    if (!CabeNaMatriz(matriz, coorTemp.x, coorTemp.y) || EncontraAntena(antenaHead, coorTemp.x, coorTemp.y)) {
+    if (!CabeNaMatriz(matriz, coorTemp.x, coorTemp.y) || EncontraAntena(grafoHead, coorTemp.x, coorTemp.y)) {
         printf("coordenadas invalidas!\n");
-        return antenaHead;
+        return grafoHead;
     }
 
     char freqTemp;
@@ -81,7 +89,7 @@ Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz) {
 
     if (!ValidaCharAntena(freqTemp)) {
         printf("frequencia invalida!\n");
-        return antenaHead;
+        return grafoHead;
     }
 
     aux->dados.x = coorTemp.x;
@@ -90,14 +98,14 @@ Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz) {
 
     printf("dados alterados com sucesso!\n");
 
-    return antenaHead;
+    return grafoHead;
 }
 
-bool MostraListaAntenas(Antena* antenaHead) {
+bool MostraListaAntenas(Antena* grafoHead) {
     // não ha nada para mostrar
-    if (!antenaHead) return false;
+    if (!grafoHead) return false;
 
-    Antena* aux = antenaHead;
+    Antena* aux = grafoHead;
     int contador = 0;
 
     while (aux) {
@@ -108,10 +116,13 @@ bool MostraListaAntenas(Antena* antenaHead) {
     return true;
 }
 
-bool MostraListaNefasto(Nefasto* nefastoHead) {
-    if (!nefastoHead) return false;
+bool MostraListaNefasto(Antena* alvo) {
+    if (!alvo) return false;
 
-    Nefasto* aux = nefastoHead;
+    // verificar se funciona
+    if (!alvo->nefHead) return false;
+
+    Nefasto* aux = alvo->nefHead;
     int contador = 0;
 
     while (aux) {
@@ -122,16 +133,48 @@ bool MostraListaNefasto(Nefasto* nefastoHead) {
     return true;
 }
 
-bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz) {
+bool EscolheMostraNefasto(Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    Coordenadas coorTemp = PedeCoordenadas("De que antena quer mostrar o efeito nefasto?");
+    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+    if (!aux) {
+        printf("não existe uma antena com essas coordenadas!\n");
+        return false;
+    }
+
+    if (!MostraListaNefasto(aux)) {
+        printf("essa antena não tem efeitos nefastos!\n");
+        return false;
+    }
+
+    return true;
+}
+
+bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
     if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
 
+    // mostrar o numero de linhas
+    printf("  ");
+    for (int n = 1; n <= matriz.colunas; n++) {
+        if (n < 10) printf("  %d", n);
+        else if (n >= 10 && n < 100) printf(" %d", n);
+        else printf("  ?");
+    }
+    printf("\n");
+
     for (int i = 1; i <= matriz.linhas; i++) {
+
+        if (i < 10) printf(" %d", i);
+        else if (i >= 10 && i < 100) printf("%d", i);
+        else printf(" ?");
+
         for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* aux = EncontraAntena(antenaHead, i, j);
+            Antena* aux = EncontraAntena(grafoHead, i, j);
 
             char temp = VAZIO;
             if (aux) temp = aux->dados.freq;
-            printf(" %c", temp);
+            printf("  %c", temp);
         }
         printf("\n");
     }
@@ -140,19 +183,33 @@ bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz) {
     return true;
 }
 
-bool MostraMatrizNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz matriz) {
+bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
     if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
 
+    // mostrar o numero de linhas
+    printf("  ");
+    for (int n = 1; n <= matriz.colunas; n++) {
+        if (n < 10) printf("  %d", n);
+        else if (n >= 10 && n < 100) printf(" %d", n);
+        else printf("  ?");
+    }
+    printf("\n");
+
     for (int i = 1; i <= matriz.linhas; i++) {
+
+        if (i < 10) printf(" %d", i);
+        else if (i >= 10 && i < 100) printf("%d", i);
+        else printf(" ?");
+
         for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* antAux = EncontraAntena(antenaHead, i, j);
-            Nefasto* nefAux = EncontraNefasto(nefastoHead, i, j);
+            Antena* aux = EncontraAntena(grafoHead, i, j);
+            bool condTemp = ExisteNefasto(grafoHead, i, j);
 
             char temp = VAZIO;
-            if (antAux && nefAux) temp = SBP;
-            else if (antAux) temp = antAux->dados.freq;
-            else if (nefAux) temp = NEF;
-            printf(" %c", temp);
+            if (aux && condTemp) temp = SBP;
+            else if (aux) temp = aux->dados.freq;
+            else if (condTemp) temp = NEF;
+            printf("  %c", temp);
         }
         printf("\n");
     }
@@ -162,13 +219,13 @@ bool MostraMatrizNefasto(Antena* antenaHead, Nefasto* nefastoHead, DadosMatriz m
 }
 
 // a função está correta, mas tens de a tentar perceber melhor
-Antena* LerFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz* matriz) {
+Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz) {
     FILE* fp = fopen(ficheiro, "rt");
     // se não conseguimos abrir o ficheiro, devolvemos a lista tal como estava
-    if (!fp) return antenaHead;
+    if (!fp) return grafoHead;
 
     // destuir uma lista, para criar uma nova
-    antenaHead = DestroiAntenas(antenaHead);
+    grafoHead = DestroiAntenas(grafoHead);
 
     matriz->linhas = 0;
     matriz->colunas = 0;
@@ -199,7 +256,7 @@ Antena* LerFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz* matri
                 tempDados.freq = tempChar;
 
                 Antena* aux = CriaAntena(tempDados);
-                antenaHead = InsereAntena(antenaHead, aux);
+                grafoHead = InsereAntena(grafoHead, aux);
             }
         }
     }
@@ -213,10 +270,10 @@ Antena* LerFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz* matri
     }
     fclose(fp);
 
-    return antenaHead;
+    return grafoHead;
 }
 
-bool GuardarFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz matriz) {
+bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz) {
     if (!ValidaMatriz(matriz)) return false;
 
     FILE* fp = fopen(ficheiro, "wt");
@@ -224,7 +281,7 @@ bool GuardarFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz matri
 
     for (int i = 1; i <= matriz.linhas; i++) {
         for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* aux = EncontraAntena(antenaHead, i, j);
+            Antena* aux = EncontraAntena(grafoHead, i, j);
 
             char temp = VAZIO;
             if (aux) temp = aux->dados.freq;

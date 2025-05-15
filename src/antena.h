@@ -11,3 +11,16 @@
 
 #include "includes.h"
 
+Antena* CriaAntena(DadosAntena valores);
+Antena* InsereAntena(Antena* grafoHead, Antena* novo);
+Antena* RemoveAntena(Antena* grafoHead, Antena* alvo);
+Antena* EncontraAntena(Antena* grafoHead, int x, int y);
+Antena* DestroiAntenas(Antena* grafoHead);
+
+Adj* CriaAdj(DadosAntena valores);
+Adj* InsereAdj(Adj* adjHead, Adj* novo);
+Adj* RemoveAdj(Adj* adjHead, Adj* alvo);
+Adj* EncontraAdj(Adj* adjHead, int x, int y);
+Adj* DestroiAdj(Adj* adjHead);
+
+bool ValidaCharAntena(char letra);

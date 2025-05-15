@@ -15,8 +15,7 @@
 #include "includes.h"
 
 int main() {
-    Antena* antenaHead = NULL;
-    Nefasto* nefastoHead = NULL;
+    Antena* grafoHead = NULL;
 
     DadosMatriz matriz;
     matriz.linhas = 0;
@@ -31,14 +30,14 @@ int main() {
             matriz = CriaMatriz(matriz);
             break;
         case 2:
-            antenaHead = LerFicheiroMatriz("antenas.txt", antenaHead, &matriz);
+            grafoHead = LerFicheiroMatriz("antenas.txt", grafoHead, &matriz);
 
             if (!ValidaMatriz(matriz)) {
                 printf("matriz invalida, vamos criar uma!\n");
                 matriz = CriaMatriz(matriz);
             }
 
-            nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
+            GeraNefasto(grafoHead, matriz);
 
             break;
         default:
@@ -52,33 +51,33 @@ int main() {
 
             switch (op) {
                 case 1:
-                    antenaHead = CriaInsereAntena(antenaHead, matriz);
-                    nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
+                    grafoHead = CriaInsereAntena(grafoHead, matriz);
+                    GeraNefasto(grafoHead, matriz);
                     break;
                 case 2:
-                    antenaHead = AlteraAntena(antenaHead, matriz);
+                    printf("Temporariamente Indisponivel!\n");
+                    // grafoHead = AlteraAntena(grafoHead, matriz);
                     break;
                 case 3:
-                    antenaHead = PerguntaRemoveAntena(antenaHead);
+                    grafoHead = PerguntaRemoveAntena(grafoHead);
                     break;
                 case 4:
-                    if (!MostraMatrizNefasto(antenaHead, nefastoHead, matriz))
+                    if (!MostraMatrizNefasto(grafoHead, matriz))
                         printf("não ha matriz!\n");
                     break;
                 case 5:
-                    if (!MostraMatrizAntenas(antenaHead, matriz))
+                    if (!MostraMatrizAntenas(grafoHead, matriz))
                         printf("não ha matriz!\n");
                     break;
                 case 6:
-                    if (!MostraListaAntenas(antenaHead))
+                    if (!MostraListaAntenas(grafoHead))
                         printf("não ha lista de antenas!\n");
                     break;
                 case 7:
-                    if (!MostraListaNefasto(nefastoHead))
-                        printf("não ha lista de antenas!\n");
+                    EscolheMostraNefasto(grafoHead);
                     break;
                 case 8:
-                    if (GuardarFicheiroMatriz("antenas.txt", antenaHead, matriz))
+                    if (GuardarFicheiroMatriz("antenas.txt", grafoHead, matriz))
                         printf("dados guardados com sucesso!\n");
                     else
                         printf("não foi possivel guardar os dados!\n");
@@ -86,18 +85,11 @@ int main() {
                 default:
                     term = true;
             }
-
-            if (op == 2 || op == 3) {
-                nefastoHead = DestroiNefasto(nefastoHead);
-                nefastoHead = GeraNefasto(antenaHead, nefastoHead, matriz);
-            }
-
             if (!term) Pausar();
         }
     }
 
-    nefastoHead = DestroiNefasto(nefastoHead);
-    antenaHead = DestroiAntenas(antenaHead);
+    grafoHead = DestroiAntenas(grafoHead);
     printf("programa terminado!\n\n");
 
     return 0;

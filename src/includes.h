@@ -20,8 +20,9 @@
 
 // headerfiles do projeto
 #include "dados.h"
-#include "func.h"
+#include "antena.h"
 #include "nefasto.h"
+#include "func.h"
 #include "termio.h"
 #include "menus.h"
 #include "extra.h"
