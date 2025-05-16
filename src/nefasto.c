@@ -66,6 +66,28 @@ Nefasto* InsereNefastoOrdenado(Nefasto* nefHead, Nefasto* novo) {
     return nefHead;
 }
 
+Nefasto* RemoveNefasto(Nefasto* nefHead, Nefasto* alvo) {
+    if (!nefHead || !alvo) return nefHead;
+
+    if (nefHead == alvo) {
+        nefHead = nefHead->next;
+        free(alvo);
+        return nefHead;
+    }
+
+    Nefasto* aux = nefHead;
+    while (aux->next && aux->next != alvo) {
+        aux = aux->next;
+    }
+
+    if (aux->next == alvo) {
+        aux->next = alvo->next;
+        free(alvo);
+    }
+
+    return nefHead;
+}
+
 Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y) {
     Nefasto* aux = nefhead;
     while (aux) {
@@ -175,4 +197,24 @@ bool ExisteNefasto(Antena* grafoHead, int x, int y) {
     }
 
     return false;
+}
+
+bool RemoveOutrosNefastos(Antena* grafoHead, Antena* alvo) {
+    if (!grafoHead || !alvo) return false;
+
+    Antena* antAux = grafoHead;
+    while (antAux) {
+        Nefasto* nefAux = antAux->nefHead;
+        while (nefAux) {
+            Nefasto* nextNef = nefAux->next;
+            if (nefAux->parente == alvo) {
+                antAux->nefHead = RemoveNefasto(antAux->nefHead, nefAux);
+            }
+            nefAux = nextNef;
+        }
+
+        antAux = antAux->next;
+    }
+
+    return true;
 }

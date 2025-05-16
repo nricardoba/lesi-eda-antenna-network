@@ -55,6 +55,7 @@ Antena* PerguntaRemoveAntena(Antena* grafoHead) {
     }
 
     RemoveOutrasAdj(grafoHead, aux);
+    RemoveOutrosNefastos(grafoHead, aux);
     grafoHead = RemoveAntena(grafoHead, aux);
 
     printf("antena removida com sucesso!\n");
@@ -93,8 +94,8 @@ Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
         return grafoHead;
     }
 
-    // verificar se está correto
     RemoveOutrasAdj(grafoHead, aux);
+    RemoveOutrosNefastos(grafoHead, aux);
     aux->adjHead = DestroiAdj(aux->adjHead);
     aux->nefHead = DestroiNefasto(aux->nefHead);
 

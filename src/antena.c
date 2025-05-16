@@ -272,7 +272,6 @@ bool GeraAdj(Antena* grafoHead) {
     }
 }
 
-// verificar se está correto
 bool RemoveOutrasAdj(Antena* grafoHead, Antena* alvo) {
     if (!grafoHead || !alvo) return false;
 
@@ -280,16 +279,14 @@ bool RemoveOutrasAdj(Antena* grafoHead, Antena* alvo) {
     while (antAux) {
         Adj* adjAux = antAux->adjHead;
         while (adjAux) {
+            Adj* nextAdj = adjAux->next;
             if (adjAux->original == alvo) {
-                RemoveAdj(antAux->adjHead, adjAux);
+                antAux->adjHead = RemoveAdj(antAux->adjHead, adjAux);
             }
-
-            adjAux = adjAux->next;
+            adjAux = nextAdj;
         }
-
         antAux = antAux->next;
     }
-
     return true;
 }
 

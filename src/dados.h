@@ -48,7 +48,7 @@ typedef struct Antena {
 typedef struct Adj {
     DadosAntena dados;
     struct Antena* original;
-    struct Adj* prev;     // ainda não sei se é necessario
+    struct Adj* prev;
     struct Adj* next;
 } Adj;
 
