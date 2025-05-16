@@ -11,8 +11,9 @@
 
 #include "includes.h"
 
-Nefasto* CriaNefasto(DadosAntena valores);
+Nefasto* CriaNefasto(DadosAntena valores, Antena* parente);
 Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo);
+Nefasto* InsereNefastoOrdenado(Nefasto* nefHead, Nefasto* novo);
 Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y);
 bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz);
 bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz);

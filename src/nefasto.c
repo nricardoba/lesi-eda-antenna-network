@@ -11,13 +11,13 @@
 
 #include "includes.h"
 
-Nefasto* CriaNefasto(DadosAntena valores) {
+Nefasto* CriaNefasto(DadosAntena valores, Antena* parente) {
     Nefasto* aux = (Nefasto*)malloc(sizeof(Nefasto));
 
     if (aux) {
         aux->dados = valores;
+        aux->parente = parente;
 
-        aux->parente = NULL;
         aux->next = NULL;
     }
 
@@ -37,6 +37,30 @@ Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo) {
         aux = aux->next;
     }
 
+    aux->next = novo;
+
+    return nefHead;
+}
+
+Nefasto* InsereNefastoOrdenado(Nefasto* nefHead, Nefasto* novo) {
+    if (!novo) return nefHead;
+
+    // Se a lista estiver vazia ou o novo deve ser o primeiro
+    if (!nefHead ||
+        (novo->dados.x < nefHead->dados.x) ||
+        (novo->dados.x == nefHead->dados.x && novo->dados.y < nefHead->dados.y)) {
+        novo->next = nefHead;
+        return novo;
+    }
+
+    Nefasto* aux = nefHead;
+    while (aux->next &&
+          ((aux->next->dados.x < novo->dados.x) ||
+           (aux->next->dados.x == novo->dados.x && aux->next->dados.y < novo->dados.y))) {
+        aux = aux->next;
+    }
+
+    novo->next = aux->next;
     aux->next = novo;
 
     return nefHead;
@@ -81,9 +105,8 @@ bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
             dadosTemp.x = novoX;
             dadosTemp.y = novoY;
 
-            Nefasto* aux = CriaNefasto(dadosTemp);
-            atual->nefHead = InsereNefasto(atual->nefHead, aux);
-            if (aux) aux->parente = comp;
+            Nefasto* aux = CriaNefasto(dadosTemp, comp);
+            atual->nefHead = InsereNefastoOrdenado(atual->nefHead, aux);
         }
     }
 

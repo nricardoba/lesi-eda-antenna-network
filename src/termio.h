@@ -11,15 +11,21 @@
 
 #include "includes.h"
 
-Antena* CriaInsereAntena(Antena* antenaHead, DadosMatriz matriz);
-Antena* PerguntaRemoveAntena(Antena* antenaHead);
-Antena* AlteraAntena(Antena* antenaHead, DadosMatriz matriz);
-bool MostraListaAntenas(Antena* antenaHead);
+Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz);
+Antena* PerguntaRemoveAntena(Antena* grafoHead);
+Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz);
+bool MostraListaAntenas(Antena* grafoHead);
+bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz);
+
+bool MostraListaAdj(Antena* alvo);
+bool EscolheMostraAdj(Antena* grafoHead);
+
 bool MostraListaNefasto(Antena* alvo);
 bool EscolheMostraNefasto(Antena* grafoHead);
-bool MostraMatrizAntenas(Antena* antenaHead, DadosMatriz matriz);
+bool MostraTodosNefastos(Antena* grafoHead);
 bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz);
-Antena* LerFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz* matriz);
-bool GuardarFicheiroMatriz(char* ficheiro, Antena* antenaHead, DadosMatriz matriz);
+
+Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz);
+bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz);
 DadosMatriz CriaMatriz(DadosMatriz matriz);
 Coordenadas PedeCoordenadas(char* mensagem);

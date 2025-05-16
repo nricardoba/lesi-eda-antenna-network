@@ -40,6 +40,7 @@ int main() {
                 matriz = CriaMatriz(matriz);
             }
 
+            GeraAdj(grafoHead);
             GeraNefasto(grafoHead, matriz);
 
             break;
@@ -58,21 +59,21 @@ int main() {
             switch (op) {
                 case 1:
                     grafoHead = CriaInsereAntena(grafoHead, matriz);
+                    GeraAdj(grafoHead);
                     GeraNefasto(grafoHead, matriz);
                     break;
                 case 2:
-                    printf("Temporariamente Indisponivel!\n");
-                    // grafoHead = AlteraAntena(grafoHead, matriz);
+                    grafoHead = AlteraAntena(grafoHead, matriz);
                     break;
                 case 3:
                     grafoHead = PerguntaRemoveAntena(grafoHead);
                     break;
                 case 4:
-                    if (!MostraMatrizNefasto(grafoHead, matriz))
+                    if (!MostraMatrizAntenas(grafoHead, matriz))
                         printf("não ha matriz!\n");
                     break;
                 case 5:
-                    if (!MostraMatrizAntenas(grafoHead, matriz))
+                    if (!MostraMatrizNefasto(grafoHead, matriz))
                         printf("não ha matriz!\n");
                     break;
                 case 6:
@@ -80,9 +81,15 @@ int main() {
                         printf("não ha lista de antenas!\n");
                     break;
                 case 7:
-                    EscolheMostraNefasto(grafoHead);
+                    EscolheMostraAdj(grafoHead);
                     break;
                 case 8:
+                    MostraTodosNefastos(grafoHead);
+                    break;
+                case 9:
+                    EscolheMostraNefasto(grafoHead);
+                    break;
+                case 10:
                     if (GuardarFicheiroMatriz("antenas.txt", grafoHead, matriz))
                         printf("dados guardados com sucesso!\n");
                     else

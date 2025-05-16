@@ -11,6 +11,8 @@
 
 #include "includes.h"
 
+#pragma region Antenas
+
 Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
     Coordenadas coorTemp = PedeCoordenadas("Coordenadas:\n");
 
@@ -33,7 +35,7 @@ Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
     }
 
     Antena* aux = CriaAntena(dadosTemp);
-    grafoHead = InsereAntena(grafoHead, aux);
+    grafoHead = InsereAntenaOrdenado(grafoHead, aux);
 
     return grafoHead;
 }
@@ -52,9 +54,8 @@ Antena* PerguntaRemoveAntena(Antena* grafoHead) {
         return grafoHead;
     }
 
+    RemoveOutrasAdj(grafoHead, aux);
     grafoHead = RemoveAntena(grafoHead, aux);
-
-    // remover esta antena das adjacencias das outras antenas
 
     printf("antena removida com sucesso!\n");
     
@@ -92,9 +93,18 @@ Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
         return grafoHead;
     }
 
+    // verificar se está correto
+    RemoveOutrasAdj(grafoHead, aux);
+    aux->adjHead = DestroiAdj(aux->adjHead);
+    aux->nefHead = DestroiNefasto(aux->nefHead);
+
+    // atribuir novos valores
     aux->dados.x = coorTemp.x;
     aux->dados.y = coorTemp.y;
     aux->dados.freq = freqTemp;
+
+    GeraAdj(grafoHead);
+    GeraNefasto(grafoHead, matriz);
 
     printf("dados alterados com sucesso!\n");
 
@@ -106,46 +116,11 @@ bool MostraListaAntenas(Antena* grafoHead) {
     if (!grafoHead) return false;
 
     Antena* aux = grafoHead;
-    int contador = 0;
+    int contador = 1;
 
     while (aux) {
         printf("[%d]: %c --> x: %d, y: %d\n", contador++, aux->dados.freq, aux->dados.x, aux->dados.y);
         aux = aux->next;
-    }
-
-    return true;
-}
-
-bool MostraListaNefasto(Antena* alvo) {
-    if (!alvo) return false;
-
-    // verificar se funciona
-    if (!alvo->nefHead) return false;
-
-    Nefasto* aux = alvo->nefHead;
-    int contador = 0;
-
-    while (aux) {
-        printf("[%d]: %c (%c) --> x: %d, y: %d\n", contador++, NEF, aux->dados.freq, aux->dados.x, aux->dados.y);
-        aux = aux->next;
-    }
-
-    return true;
-}
-
-bool EscolheMostraNefasto(Antena* grafoHead) {
-    if (!grafoHead) return false;
-
-    Coordenadas coorTemp = PedeCoordenadas("De que antena quer mostrar o efeito nefasto?");
-    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
-    if (!aux) {
-        printf("não existe uma antena com essas coordenadas!\n");
-        return false;
-    }
-
-    if (!MostraListaNefasto(aux)) {
-        printf("essa antena não tem efeitos nefastos!\n");
-        return false;
     }
 
     return true;
@@ -179,6 +154,94 @@ bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
         printf("\n");
     }
     puts("\n");
+
+    return true;
+}
+
+#pragma endregion
+#pragma region Adj
+
+bool MostraListaAdj(Antena* alvo) {
+    if (!alvo || !alvo->adjHead) return false;
+
+    Adj* aux = alvo->adjHead;
+    int contador = 1;
+
+    printf("Todas as Adjacencias de (%c) --> x: %d, y: %d\n", alvo->dados.freq, alvo->dados.x, alvo->dados.y);
+    while (aux) {
+        printf("  [%d] %c --> x: %d, y: %d\n", contador++, aux->dados.freq, aux->dados.x, aux->dados.y);
+        aux = aux->next;
+    }
+
+    return true;
+}
+
+bool EscolheMostraAdj(Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    Coordenadas coorTemp = PedeCoordenadas("De que antena pretende mostrar as Adjacencias?");
+    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+
+    if (!aux) {
+        printf("não existe uma antena com essas coordenadas!\n");
+        return false;
+    }
+
+    if (!MostraListaAdj(aux)) {
+        printf("essa antena não tem efeitos nefastos!\n");
+        return false;
+    }
+
+    return true;
+}
+
+#pragma endregion
+#pragma region Nefasto
+
+bool MostraListaNefasto(Antena* alvo) {
+    if (!alvo || !alvo->nefHead) return false;
+
+    Nefasto* aux = alvo->nefHead;
+    int contador = 1;
+
+    printf("Todas os Efeitos Nefastos de (%c) --> x: %d, y: %d\n", alvo->dados.freq, alvo->dados.x, alvo->dados.y);
+    while (aux) {
+        printf("  [%d] %c --> x: %d, y: %d\n", contador++, NEF, aux->dados.x, aux->dados.y);
+        aux = aux->next;
+    }
+
+    return true;
+}
+
+bool EscolheMostraNefasto(Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    Coordenadas coorTemp = PedeCoordenadas("De que antena quer mostrar o efeito nefasto?");
+    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+
+    if (!aux) {
+        printf("não existe uma antena com essas coordenadas!\n");
+        return false;
+    }
+
+    if (!MostraListaNefasto(aux)) {
+        printf("essa antena não tem efeitos nefastos!\n");
+        return false;
+    }
+
+    return true;
+}
+
+bool MostraTodosNefastos(Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    Antena* aux = grafoHead;
+    while (aux) {
+        MostraListaNefasto(aux);
+        printf("\n");
+
+        aux = aux->next;
+    }
 
     return true;
 }
@@ -218,6 +281,9 @@ bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
     return true;
 }
 
+#pragma endregion
+#pragma region Matriz e Ficheiro
+
 // a função está correta, mas tens de a tentar perceber melhor
 Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz) {
     FILE* fp = fopen(ficheiro, "rt");
@@ -256,7 +322,7 @@ Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz
                 tempDados.freq = tempChar;
 
                 Antena* aux = CriaAntena(tempDados);
-                grafoHead = InsereAntena(grafoHead, aux);
+                grafoHead = InsereAntenaOrdenado(grafoHead, aux);
             }
         }
     }
@@ -324,3 +390,5 @@ Coordenadas PedeCoordenadas(char* mensagem) {
 
     return aux;
 }
+
+#pragma endregion

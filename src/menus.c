@@ -45,24 +45,28 @@ int MainMenu() {
         LimpaTerminal();
         printf("Escolha uma opção:\n\n");
 
-        printf("1 - Adicionar antena\n");
-        printf("2 - Alterar antena\n");
-        printf("3 - Remover antena\n\n");
+        printf(" 1 - Adicionar antena\n");
+        printf(" 2 - Alterar antena\n");
+        printf(" 3 - Remover antena\n\n");
 
-        printf("4 - Mostrar matriz com efeito nefasto\n");
-        printf("5 - Mostrar matriz sem efeito nefasto\n\n");
+        printf(" 4 - Mostrar matriz sem efeito nefasto\n");
+        printf(" 5 - Mostrar matriz com efeito nefasto\n\n");
 
-        printf("6 - Mostra lista das Antenas\n");
-        printf("7 - Mostra lista do Efeito Nefasto\n\n");
+        printf(" 6 - Mostrar lista de todas as Antenas\n");
+        printf(" 7 - Mostrar lista de Adjacencia de uma antena\n\n");
+
+        printf(" 8 - Mostrar lista de todos os Efeitos Nefastos\n");
+        printf(" 9 - Mostrar lista de Efeito Nefasto de uma Antena\n\n");
         
-        printf("8 - Guardar a matriz em ficheiro\n");
-        printf("\n0 - Sair\n\n");
+        printf("10 - Guardar a matriz em ficheiro de texto\n\n");
+
+        printf(" 0 - Sair\n\n");
 
         printf("opção: ");
         scanf("%d", &op);
         printf("\n");
 
-        if (op >= 0 && op <= 8) term = true;
+        if (op >= 0 && op <= 10) term = true;
         else {
             printf("opção invalida!\n");
             Pausar();

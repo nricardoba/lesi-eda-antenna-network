@@ -52,6 +52,35 @@ Antena* InsereAntena(Antena* grafoHead, Antena* novo) {
     return grafoHead;
 }
 
+Antena* InsereAntenaOrdenado(Antena* grafoHead, Antena* novo) {
+    if (!novo) return grafoHead;
+
+    // Se a lista estiver vazia ou o novo deve ser o primeiro
+    if (!grafoHead ||
+        (novo->dados.x < grafoHead->dados.x) ||
+        (novo->dados.x == grafoHead->dados.x && novo->dados.y < grafoHead->dados.y)) {
+        novo->next = grafoHead;
+        novo->prev = NULL;
+        if (grafoHead) grafoHead->prev = novo;
+        return novo;
+    }
+
+    Antena* aux = grafoHead;
+    while (aux->next &&
+          ((aux->next->dados.x < novo->dados.x) ||
+           (aux->next->dados.x == novo->dados.x && aux->next->dados.y < novo->dados.y))) {
+        aux = aux->next;
+    }
+
+    // Inserir novo após 'aux'
+    novo->next = aux->next;
+    novo->prev = aux;
+    if (aux->next) aux->next->prev = novo;
+    aux->next = novo;
+
+    return grafoHead;
+}
+
 Antena* RemoveAntena(Antena* grafoHead, Antena* alvo) {
     // se não houver lista, não ha nada para remover
     if (!grafoHead || !alvo) return grafoHead;
@@ -110,14 +139,14 @@ Antena* DestroiAntenas(Antena* grafoHead) {
 #pragma endregion
 #pragma region Funções Adj
 
-Adj* CriaAdj(DadosAntena valores) {
+Adj* CriaAdj(DadosAntena valores, Antena* original) {
     Adj* aux = (Adj*)malloc(sizeof(Adj));
 
     // se conseguiu alocar memoria
     if (aux) {
         aux->dados = valores;
+        aux->original = original;
 
-        aux->original = NULL;
         aux->prev = NULL;
         aux->next = NULL;
     }
@@ -140,6 +169,34 @@ Adj* InsereAdj(Adj* adjHead, Adj* novo) {
 
     aux->next = novo;
     novo->prev = aux;
+
+    return adjHead;
+}
+
+Adj* InsereAdjOrdenado(Adj* adjHead, Adj* novo) {
+    if (!novo) return adjHead;
+
+    // Se a lista estiver vazia ou o novo deve ser o primeiro
+    if (!adjHead ||
+        (novo->dados.x < adjHead->dados.x) ||
+        (novo->dados.x == adjHead->dados.x && novo->dados.y < adjHead->dados.y)) {
+        novo->next = adjHead;
+        novo->prev = NULL;
+        if (adjHead) adjHead->prev = novo;
+        return novo;
+    }
+
+    Adj* aux = adjHead;
+    while (aux->next &&
+          ((aux->next->dados.x < novo->dados.x) ||
+           (aux->next->dados.x == novo->dados.x && aux->next->dados.y < novo->dados.y))) {
+        aux = aux->next;
+    }
+
+    novo->next = aux->next;
+    novo->prev = aux;
+    if (aux->next) aux->next->prev = novo;
+    aux->next = novo;
 
     return adjHead;
 }
@@ -184,6 +241,56 @@ Adj* DestroiAdj(Adj* adjHead) {
     }
 
     return adjHead;
+}
+
+bool CausaAdj(Antena* a, Antena* b) {
+    // são a mesma antena
+    if (a == b) return false;
+
+    // se não tiverem a mesma frequencia, não ha adj
+    if (a->dados.freq != b->dados.freq) return false;
+
+    return true;
+}
+
+bool GeraAdj(Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    Antena* atual = grafoHead;
+    while (atual) {
+        Antena* comp = grafoHead;
+        while (comp) {
+            if (CausaAdj(atual, comp) && !EncontraAdj(atual->adjHead, comp->dados.x, comp->dados.y)) {
+                Adj* aux = CriaAdj(comp->dados, comp);
+                atual->adjHead = InsereAdjOrdenado(atual->adjHead, aux);
+            }
+
+            comp = comp->next;
+        }
+
+        atual = atual->next;
+    }
+}
+
+// verificar se está correto
+bool RemoveOutrasAdj(Antena* grafoHead, Antena* alvo) {
+    if (!grafoHead || !alvo) return false;
+
+    Antena* antAux = grafoHead;
+    while (antAux) {
+        Adj* adjAux = antAux->adjHead;
+        while (adjAux) {
+            if (adjAux->original == alvo) {
+                RemoveAdj(antAux->adjHead, adjAux);
+            }
+
+            adjAux = adjAux->next;
+        }
+
+        antAux = antAux->next;
+    }
+
+    return true;
 }
 
 #pragma endregion
