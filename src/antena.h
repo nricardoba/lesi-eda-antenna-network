@@ -1,9 +1,9 @@
 /**
  * @file antena.h
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief 
+ * @brief Headerfile do ficheiro "antena.c".
  * @version 0.1
- * @date 14-05-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 

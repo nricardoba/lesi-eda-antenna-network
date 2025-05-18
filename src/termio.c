@@ -1,9 +1,9 @@
 /**
  * @file termio.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief 
+ * @brief Ficheiro que gere as funções de input e output no terminal do projeto.
  * @version 0.1
- * @date 11-05-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -13,6 +13,13 @@
 
 #pragma region Antenas
 
+/**
+ * @brief Pede as coordenadas de uma antena e se for possivel, cria e insere essa antena.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
     Coordenadas coorTemp = PedeCoordenadas("Coordenadas:\n");
 
@@ -40,6 +47,12 @@ Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
     return grafoHead;
 }
 
+/**
+ * @brief Pede as coordenadas de uma antena e se for possivel, remove essa antena.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* PerguntaRemoveAntena(Antena* grafoHead) {
     if (!grafoHead) {
         printf("não existe uma lista!\n");
@@ -63,6 +76,13 @@ Antena* PerguntaRemoveAntena(Antena* grafoHead) {
     return grafoHead;
 }
 
+/**
+ * @brief Se for possivel, altera as informações de uma antena.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
     if (!grafoHead) {
         printf("não existe uma lista!\n");
@@ -112,6 +132,13 @@ Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
     return grafoHead;
 }
 
+/**
+ * @brief Mostra a informação de todas as antenas presentes no grafo.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return true Se existe pelo menos uma antena.
+ * @return false Se não existe grafo.
+ */
 bool MostraListaAntenas(Antena* grafoHead) {
     // não ha nada para mostrar
     if (!grafoHead) return false;
@@ -127,6 +154,14 @@ bool MostraListaAntenas(Antena* grafoHead) {
     return true;
 }
 
+/**
+ * @brief Mostra no terminal a matriz sem o efeito nefasto.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return true Se conseguiu mostrar com sucesso.
+ * @return false Se os dados da matriz são invalidos.
+ */
 bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
     if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
 
@@ -162,6 +197,13 @@ bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
 #pragma endregion
 #pragma region Adj
 
+/**
+ * @brief Mostra a lista de adjuntas de uma antena.
+ * 
+ * @param alvo Antena que pretendemos mostrar a lista de adj.
+ * @return true Se conseguiu mostrar.
+ * @return false Se não existe grafo ou lista de adjuntas.
+ */
 bool MostraListaAdj(Antena* alvo) {
     if (!alvo || !alvo->adjHead) return false;
 
@@ -177,6 +219,13 @@ bool MostraListaAdj(Antena* alvo) {
     return true;
 }
 
+/**
+ * @brief Pede a informação de uma antena e mostra as suas adjacências no terminal.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return true Se conseguiu mostrar.
+ * @return false Se não foi possivel mostrar.
+ */
 bool EscolheMostraAdj(Antena* grafoHead) {
     if (!grafoHead) return false;
 
@@ -199,6 +248,13 @@ bool EscolheMostraAdj(Antena* grafoHead) {
 #pragma endregion
 #pragma region Nefasto
 
+/**
+ * @brief Mostra a lista do efeito nefasto de uma antena pretendida.
+ * 
+ * @param alvo Antena a mostrar o efeito nefasto.
+ * @return true Se consegui mostrar.
+ * @return false Se não existe grafo ou lista de nefasto da antena pretendida.
+ */
 bool MostraListaNefasto(Antena* alvo) {
     if (!alvo || !alvo->nefHead) return false;
 
@@ -214,6 +270,13 @@ bool MostraListaNefasto(Antena* alvo) {
     return true;
 }
 
+/**
+ * @brief Pede a informação de uma antena e mostra a sua lista de efeito nefasto no terminal.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return true Se conseguiu mostrar.
+ * @return false Se não foi possivel mostrar.
+ */
 bool EscolheMostraNefasto(Antena* grafoHead) {
     if (!grafoHead) return false;
 
@@ -233,6 +296,13 @@ bool EscolheMostraNefasto(Antena* grafoHead) {
     return true;
 }
 
+/**
+ * @brief Mostra a lista de efeito nefasto de todas as antenas do grafo.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return true Se conseguiu mostrar.
+ * @return false Se não existe grafo.
+ */
 bool MostraTodosNefastos(Antena* grafoHead) {
     if (!grafoHead) return false;
 
@@ -247,6 +317,14 @@ bool MostraTodosNefastos(Antena* grafoHead) {
     return true;
 }
 
+/**
+ * @brief Mostra no terminal a matriz completa.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return true Se conseguiu mostrar com sucesso.
+ * @return false Se os dados da matriz são invalidos.
+ */
 bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
     if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
 
@@ -285,7 +363,14 @@ bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
 #pragma endregion
 #pragma region Matriz e Ficheiro
 
-// a função está correta, mas tens de a tentar perceber melhor
+/**
+ * @brief Lê uma matriz presente num ficheiro de texto.
+ * 
+ * @param ficheiro Nome do ficheiro.
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz) {
     FILE* fp = fopen(ficheiro, "rt");
     // se não conseguimos abrir o ficheiro, devolvemos a lista tal como estava
@@ -340,6 +425,15 @@ Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz
     return grafoHead;
 }
 
+/**
+ * @brief Guarda a matriz e as antenas num ficheiro de texto.
+ * 
+ * @param ficheiro Nome do ficheiro.
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return true Se conseguiu guardar.
+ * @return false Se não conseguiu guardar.
+ */
 bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz) {
     if (!ValidaMatriz(matriz)) return false;
 
@@ -361,6 +455,12 @@ bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz
     return true;
 }
 
+/**
+ * @brief Cria uma matriz com as dimensões escolhidas pelo utilizador.
+ * 
+ * @param matriz Dados da matriz.
+ * @return DadosMatriz Matriz atualizada.
+ */
 DadosMatriz CriaMatriz(DadosMatriz matriz) {
     DadosMatriz temp;
     printf("linhas: ");
@@ -379,6 +479,12 @@ DadosMatriz CriaMatriz(DadosMatriz matriz) {
     return matriz;
 }
 
+/**
+ * @brief Pede umas coordenadas ao utilizador.
+ * 
+ * @param mensagem Mensagem para o utilizador.
+ * @return Coordenadas que o utilizador escolheu.
+ */
 Coordenadas PedeCoordenadas(char* mensagem) {
     Coordenadas aux;
 

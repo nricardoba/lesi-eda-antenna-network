@@ -1,9 +1,9 @@
 /**
  * @file includes.h
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Ficheiro com as todas bibliotecas e headerfiles do projeto.
+ * @brief Ficheiro com todos os headerfiles do projeto
  * @version 0.1
- * @date 30-03-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -22,6 +22,7 @@
 #include "dados.h"
 #include "antena.h"
 #include "nefasto.h"
+#include "travessias.h"
 #include "func.h"
 #include "termio.h"
 #include "menus.h"

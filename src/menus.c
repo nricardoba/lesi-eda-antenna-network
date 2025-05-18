@@ -1,9 +1,9 @@
 /**
  * @file menus.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Ficheiro que gere as funções sobre os menus do projeto.
+ * @brief Ficheiro que gere as funções sobre menus do projeto.
  * @version 0.1
- * @date 30-03-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -11,6 +11,11 @@
 
 #include "includes.h"
 
+/**
+ * @brief Menu apresentado ao utilizador antes de o programa principal começar.
+ * 
+ * @return int opção escolhida pelo utilizador.
+ */
 int PreMenu() {
     int op;
     bool term = false;
@@ -37,6 +42,11 @@ int PreMenu() {
     return op;
 }
 
+/**
+ * @brief Menu apresentado ao utilizador com as operações principais.
+ * 
+ * @return int opção escolhida pelo utilizador.
+ */
 int MainMenu() {
     int op;
     bool term = false;

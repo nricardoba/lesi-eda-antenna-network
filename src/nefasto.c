@@ -1,9 +1,9 @@
 /**
  * @file nefasto.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Ficheiro que gere as funções sobre a lista ligada relativa ao efeito nefasto.
+ * @brief Ficheiro que gere as funções sobre efeitos nefastos do projeto.
  * @version 0.1
- * @date 30-03-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -11,6 +11,13 @@
 
 #include "includes.h"
 
+/**
+ * @brief Cria um novo efeito nefasto com os dados passados por parametros.
+ * 
+ * @param valores Dados do efeito nefasto.
+ * @param parente Antena que gerou o efeito nefasto.
+ * @return Nefasto* Novo efeito nefasto criado.
+ */
 Nefasto* CriaNefasto(DadosAntena valores, Antena* parente) {
     Nefasto* aux = (Nefasto*)malloc(sizeof(Nefasto));
 
@@ -24,6 +31,13 @@ Nefasto* CriaNefasto(DadosAntena valores, Antena* parente) {
     return aux;
 }
 
+/**
+ * @brief Insere um novo efeito nefasto na lista de uma antena.
+ * 
+ * @param nefHead Inicio da lista de efeito nefasto de uma antena.
+ * @param novo Novo efeito nefasto a inserir.
+ * @return Nefasto* Inicio da lista de efeito nefasto atualizada.
+ */
 Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo) {
     if (!novo) return nefHead;
 
@@ -42,6 +56,13 @@ Nefasto* InsereNefasto(Nefasto* nefHead, Nefasto* novo) {
     return nefHead;
 }
 
+/**
+ * @brief Insere um novo efeito nefasto, ordenado, na lista de uma antena.
+ * 
+ * @param nefHead Inicio da lista de efeito nefasto de uma antena.
+ * @param novo Novo efeito nefasto a inserir.
+ * @return Nefasto* Inicio da lista de efeito nefasto atualizada.
+ */
 Nefasto* InsereNefastoOrdenado(Nefasto* nefHead, Nefasto* novo) {
     if (!novo) return nefHead;
 
@@ -66,6 +87,13 @@ Nefasto* InsereNefastoOrdenado(Nefasto* nefHead, Nefasto* novo) {
     return nefHead;
 }
 
+/**
+ * @brief Remove um efeito nefasto de uma lista.
+ * 
+ * @param nefHead Inicio da lista de efeito nefasto de uma antena.
+ * @param alvo Antena a Remover.
+ * @return Nefasto* Inicio da lista de efeito nefasto atualizada.
+ */
 Nefasto* RemoveNefasto(Nefasto* nefHead, Nefasto* alvo) {
     if (!nefHead || !alvo) return nefHead;
 
@@ -88,6 +116,15 @@ Nefasto* RemoveNefasto(Nefasto* nefHead, Nefasto* alvo) {
     return nefHead;
 }
 
+/**
+ * @brief Encontra um efeito nefasto presente na lista de uma antena.
+ * 
+ * @param nefhead Inicio da lista de efeito nefasto de uma antena.
+ * @param parente Antena que gerou o efeito nefasto.
+ * @param x Coordenada x do efeito nefasto a encontrar.
+ * @param y Coordenada y do efeito nefasto a encontrar.
+ * @return Nefasto* Efeito nefasto encontrado (se não encontrou, devolve NULL).
+ */
 Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y) {
     Nefasto* aux = nefhead;
     while (aux) {
@@ -99,6 +136,15 @@ Nefasto* EncontraNefasto(Nefasto* nefhead, Antena* parente, int x, int y) {
     return NULL;
 }
 
+/**
+ * @brief Calcula e insere uma efeito nefasto na lista de uma antena.
+ * 
+ * @param atual Antena atual.
+ * @param comp Antena para comparar a existencia de efeito nefasto.
+ * @param matriz Dados da matriz.
+ * @return true Se consegui criar e inserir com sucesso.
+ * @return false Se não conseguiu realizar a operação.
+ */
 bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
     if (!atual || !comp) return false;
 
@@ -135,6 +181,14 @@ bool CriaInsereNefasto(Antena* atual, Antena* comp, DadosMatriz matriz) {
     return true;
 }
 
+/**
+ * @brief Gera a lista de efeito nefasto para todas as antenas.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return true Se conseguiu gerar nefasto.
+ * @return false Se não existe grafo.
+ */
 bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz) {
     if (!grafoHead) return false;
 
@@ -149,8 +203,16 @@ bool GeraNefasto(Antena* grafoHead, DadosMatriz matriz) {
 
         atual = atual->next;
     }
+
+    return true;
 }
 
+/**
+ * @brief Destroi a lista de efeito nefasto de uma antena.
+ * 
+ * @param nefHead Inicio da lista de efeito nefasto de uma antena.
+ * @return Nefasto* Inicio da lista de efeito nefasto vazia.
+ */
 Nefasto* DestroiNefasto(Nefasto* nefHead) {
     if (!nefHead) return NULL;
 
@@ -164,6 +226,14 @@ Nefasto* DestroiNefasto(Nefasto* nefHead) {
     return nefHead;
 }
 
+/**
+ * @brief Verifica se existe efeito nefasto entre duas antenas.
+ * 
+ * @param a Primeira antena para comparar a existência de efeito nefasto.
+ * @param b Segunda antena para comparar a existência de efeito nefasto.
+ * @return true Se causa efeito nefasto.
+ * @return false Se não causa efeito nefasto.
+ */
 bool CausaNefasto(Antena* a, Antena* b) {
     // são a mesma antena
     if (a == b) return false;
@@ -180,6 +250,15 @@ bool CausaNefasto(Antena* a, Antena* b) {
     return true;
 }
 
+/**
+ * @brief Se existe pelo menos um efeito nefasto no grafo, com as coordenadas pretendidas.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param x Coordenada x do efeito nefasto a encontrar.
+ * @param y Coordenada y do efeito nefasto a encontrar.
+ * @return true Se conseguiu encontrar.
+ * @return false Se não conseguiu encontrar.
+ */
 bool ExisteNefasto(Antena* grafoHead, int x, int y) {
     if (!grafoHead) return false;
 
@@ -199,6 +278,14 @@ bool ExisteNefasto(Antena* grafoHead, int x, int y) {
     return false;
 }
 
+/**
+ * @brief Remove um efeito nefasto das listas das outras antenas.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param alvo Antena parente do efeito nefasto a remover.
+ * @return true Se conseguiu remover.
+ * @return false Se não existe grafo ou alvo a remover.
+ */
 bool RemoveOutrosNefastos(Antena* grafoHead, Antena* alvo) {
     if (!grafoHead || !alvo) return false;
 

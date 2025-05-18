@@ -1,9 +1,9 @@
 /**
  * @file termio.h
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief 
+ * @brief Headerfile do ficheiro "termio.c".
  * @version 0.1
- * @date 11-05-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 

@@ -1,9 +1,9 @@
 /**
  * @file nefasto.h
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Headerfile do ficheiro nefasto.c
+ * @brief Headerfile do ficheiro "nefasto.c".
  * @version 0.1
- * @date 30-03-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 

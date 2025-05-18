@@ -1,9 +1,9 @@
 /**
  * @file antena.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief 
+ * @brief Ficheiro que gere as funções sobre antenas do projeto.
  * @version 0.1
- * @date 14-05-2025
+ * @date 18-05-2025
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -13,6 +13,12 @@
 
 #pragma region Funções Antenas
 
+/**
+ * @brief Cria uma nova antena com os dados passados por parametro.
+ * 
+ * @param valores Dados da antena.
+ * @return Antena* Apontador para a nova antena criada.
+ */
 Antena* CriaAntena(DadosAntena valores) {
     Antena* aux = (Antena*)malloc(sizeof(Antena));
 
@@ -30,6 +36,13 @@ Antena* CriaAntena(DadosAntena valores) {
     return aux;
 }
 
+/**
+ * @brief Insere uma antena criada na lista ligada das antenas.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param novo Antena que pretendemos inserir na lista.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* InsereAntena(Antena* grafoHead, Antena* novo) {
     // se não existir uma nova antena, não ha nada para inserir
     if (!novo) return grafoHead;
@@ -53,6 +66,13 @@ Antena* InsereAntena(Antena* grafoHead, Antena* novo) {
     return grafoHead;
 }
 
+/**
+ * @brief Insere uma antena criada, por ordem, na lista ligada das antenas.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param novo Antena que pretendemos inserir na lista.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* InsereAntenaOrdenado(Antena* grafoHead, Antena* novo) {
     if (!novo) return grafoHead;
 
@@ -82,6 +102,13 @@ Antena* InsereAntenaOrdenado(Antena* grafoHead, Antena* novo) {
     return grafoHead;
 }
 
+/**
+ * @brief Remove uma antena (a sua lista de adjacencias e de efeitos nefastos) do grafo.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param alvo Antena que pretendemos remover.
+ * @return Antena* Inicio da lista atualizada.
+ */
 Antena* RemoveAntena(Antena* grafoHead, Antena* alvo) {
     // se não houver lista, não ha nada para remover
     if (!grafoHead || !alvo) return grafoHead;
@@ -106,6 +133,14 @@ Antena* RemoveAntena(Antena* grafoHead, Antena* alvo) {
     return grafoHead;
 }
 
+/**
+ * @brief Encontra uma antena presente no grafo.
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @param x Coordenada x da antena pretendida.
+ * @param y Coordenada y da antena pretendida.
+ * @return Antena* Se encontrou, devolve a antena, caso contrario, devolve NULL.
+ */
 Antena* EncontraAntena(Antena* grafoHead, int x, int y) {
     Antena* aux = grafoHead;
     while (aux) {
@@ -117,6 +152,12 @@ Antena* EncontraAntena(Antena* grafoHead, int x, int y) {
     return NULL;
 }
 
+/**
+ * @brief Destroi todo o grafo
+ * 
+ * @param grafoHead Inicio da lista das antenas.
+ * @return Antena* Inicio vazio da lista das antenas.
+ */
 Antena* DestroiAntenas(Antena* grafoHead) {
     if (!grafoHead) return NULL;
 
@@ -140,6 +181,13 @@ Antena* DestroiAntenas(Antena* grafoHead) {
 #pragma endregion
 #pragma region Funções Adj
 
+/**
+ * @brief Cria uma nova adjunção com os dados passados por parametros.
+ * 
+ * @param valores Dados da adjacência.
+ * @param original Antena que gerou a adjacência.
+ * @return Adj* Nova adjacência criada.
+ */
 Adj* CriaAdj(DadosAntena valores, Antena* original) {
     Adj* aux = (Adj*)malloc(sizeof(Adj));
 
@@ -155,25 +203,43 @@ Adj* CriaAdj(DadosAntena valores, Antena* original) {
     return aux;
 }
 
+/**
+ * @brief Insere uma nova adjacência na lista das adjacências de uma antena.
+ * 
+ * @param adjHead Inicio da lista de adjacências de uma antena.
+ * @param novo Nova adjacência a ser inserida.
+ * @return Adj* Inicio da lista de adjacências atualizada.
+ */
 Adj* InsereAdj(Adj* adjHead, Adj* novo) {
+    // se não existir uma nova adjacência, não ha nada a inserir
     if (!novo) return adjHead;
 
+    // se não existir uma lista, a nova adj é a primeira
     if (!adjHead) {
         adjHead = novo;
         return adjHead;
     }
 
+    // percorrer a lista até ao fim
     Adj* aux = adjHead;
     while (aux->next) {
         aux = aux->next;
     }
 
+    // introduzir no fim
     aux->next = novo;
     novo->prev = aux;
 
     return adjHead;
 }
 
+/**
+ * @brief Insere uma nova adjacência, ordenada,  na lista das adjacências de uma antena.
+ * 
+ * @param adjHead Inicio da lista de adjacências de uma antena.
+ * @param novo Nova adjacência a ser inserida.
+ * @return Adj* Inicio da lista de adjacências atualizada.
+ */
 Adj* InsereAdjOrdenado(Adj* adjHead, Adj* novo) {
     if (!novo) return adjHead;
 
@@ -202,6 +268,13 @@ Adj* InsereAdjOrdenado(Adj* adjHead, Adj* novo) {
     return adjHead;
 }
 
+/**
+ * @brief Remove uma adjacência de uma lista.
+ * 
+ * @param adjHead Inicio da lista de adjacências de uma antena.
+ * @param alvo Adjacência a remover.
+ * @return Adj* Inicio da lista de adjacências atualizada.
+ */
 Adj* RemoveAdj(Adj* adjHead, Adj* alvo) {
     if (!adjHead || !alvo) return adjHead;
 
@@ -220,6 +293,14 @@ Adj* RemoveAdj(Adj* adjHead, Adj* alvo) {
     return adjHead;
 }
 
+/**
+ * @brief Encontra uma adjunção presente na lista de uma antena.
+ * 
+ * @param adjHead Inicio da lista de adjacências de uma antena.
+ * @param x Coordenada x da antena a encontar.
+ * @param y Coordenada y da antena a encontar.
+ * @return Adj* Adjunção encontrada (se não encontrou, devolve NULL).
+ */
 Adj* EncontraAdj(Adj* adjHead, int x, int y) {
     Adj* aux = adjHead;
     while (aux) {
@@ -231,6 +312,12 @@ Adj* EncontraAdj(Adj* adjHead, int x, int y) {
     return NULL;
 }
 
+/**
+ * @brief Destroi a lista de adjacências de uma antena.
+ * 
+ * @param adjHead Inicio da lista de adjacências de uma antena.
+ * @return Adj* Inicio da lista de adjacências vazia.
+ */
 Adj* DestroiAdj(Adj* adjHead) {
     if (!adjHead) return NULL;
 
@@ -244,6 +331,14 @@ Adj* DestroiAdj(Adj* adjHead) {
     return adjHead;
 }
 
+/**
+ * @brief Verifica se duas antenas são adjacentes.
+ * 
+ * @param a Primeira antena para comparar a existência de adjacência.
+ * @param b Segunda antena para comparar a existência de adjacência.
+ * @return true Se causa adjacência.
+ * @return false Se não causa adjacência.
+ */
 bool CausaAdj(Antena* a, Antena* b) {
     // são a mesma antena
     if (a == b) return false;
@@ -254,6 +349,13 @@ bool CausaAdj(Antena* a, Antena* b) {
     return true;
 }
 
+/**
+ * @brief Gera a lista de adjacências para todas as antenas.
+ * 
+ * @param grafoHead Inicio da lista de adjacências de uma antena.
+ * @return true Caso gere a lista com sucesso.
+ * @return false Caso não exista lista.
+ */
 bool GeraAdj(Antena* grafoHead) {
     if (!grafoHead) return false;
 
@@ -271,8 +373,18 @@ bool GeraAdj(Antena* grafoHead) {
 
         atual = atual->next;
     }
+
+    return true;
 }
 
+/**
+ * @brief Remove uma antena das listas de adjacências das outras antenas.
+ * 
+ * @param grafoHead Inicio da lista de adjacências de uma antena.
+ * @param alvo Antena a remover.
+ * @return true Se conseguiu remover com sucesso.
+ * @return false Se não existe grafo ou lista de adjacências da antena pretendida.
+ */
 bool RemoveOutrasAdj(Antena* grafoHead, Antena* alvo) {
     if (!grafoHead || !alvo) return false;
 
@@ -288,6 +400,7 @@ bool RemoveOutrasAdj(Antena* grafoHead, Antena* alvo) {
         }
         antAux = antAux->next;
     }
+
     return true;
 }
 
