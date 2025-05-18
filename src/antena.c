@@ -20,6 +20,7 @@ Antena* CriaAntena(DadosAntena valores) {
     if (aux) {
         aux->dados = valores;
 
+        aux->visitado = 0;
         aux->adjHead = NULL;
         aux->nefHead = NULL;
         aux->prev = NULL;

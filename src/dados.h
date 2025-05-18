@@ -37,8 +37,14 @@ typedef struct Coordenadas {
 
 #pragma endregion
 
+typedef struct Grafo {
+    int totalAntenas;
+    struct Antena* head;
+} Grafo;
+
 typedef struct Antena {
     DadosAntena dados;
+    int visitado;
     struct Adj* adjHead;
     struct Nefasto* nefHead;
     struct Antena* prev;
