@@ -26,6 +26,9 @@ bool MostraTodosNefastos(Antena* grafoHead);
 bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz);
 
 Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz);
+Antena* LerAntenasBin(char* ficheiro, Antena* grafoHead, DadosMatriz matriz);
 bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz);
+bool GuardarAntenasBin(char* ficheiro, Antena* grafoHead);
+
 DadosMatriz CriaMatriz(DadosMatriz matriz);
 Coordenadas PedeCoordenadas(char* mensagem);

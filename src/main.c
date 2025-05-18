@@ -42,6 +42,15 @@ int main() {
             matriz = CriaMatriz(matriz);
             break;
         case 2:
+            // ler os dados do grafo de um ficheiro binario
+            matriz = CriaMatriz(matriz);
+            grafoHead = LerAntenasBin("grafo.bin", grafoHead, matriz);
+
+            // gerar as listas de adj e nefasto
+            GeraAdj(grafoHead);
+            GeraNefasto(grafoHead, matriz);
+            break;
+        case 3:
             // ler os dados das antenas e da matriz do ficheiro txt
             grafoHead = LerFicheiroMatriz("antenas.txt", grafoHead, &matriz);
 
@@ -113,6 +122,13 @@ int main() {
                     EscolheMostraNefasto(grafoHead);
                     break;
                 case 10:
+                    // guardar num ficheiro binario os dados do grafo
+                    if (GuardarAntenasBin("grafo.bin", grafoHead))
+                        printf("dados guardados com sucesso!\n");
+                    else
+                        printf("não foi possivel guardar os dados!\n");
+                    break;
+                case 11:
                     // guardar num ficheiro de texto a mariz apenas com as antenas
                     if (GuardarFicheiroMatriz("antenas.txt", grafoHead, matriz))
                         printf("dados guardados com sucesso!\n");

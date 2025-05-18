@@ -25,14 +25,15 @@ int PreMenu() {
         printf("Escolha uma opção:\n\n");
 
         printf("1 - Criar nova Matriz\n");
-        printf("2 - Carregar Matriz do ficheiro\n");
+        printf("2 - Carregar o grafo do ficheiro binario\n");
+        printf("3 - Carregar Matriz do ficheiro de texto\n");
         printf("0 - Sair\n\n");
 
         printf("opção: ");
         scanf("%d", &op);
         printf("\n");
 
-        if (op >= 0 && op <= 2) term = true;
+        if (op >= 0 && op <= 3) term = true;
         else {
             printf("opção invalida!\n");
             Pausar();
@@ -68,7 +69,8 @@ int MainMenu() {
         printf(" 8 - Mostrar lista de todos os Efeitos Nefastos\n");
         printf(" 9 - Mostrar lista de Efeito Nefasto de uma Antena\n\n");
         
-        printf("10 - Guardar a matriz em ficheiro de texto\n\n");
+        printf("10 - Guardar o grafo em ficheiro binario\n");
+        printf("11 - Guardar a matriz em ficheiro de texto\n\n");
 
         printf(" 0 - Sair\n\n");
 
@@ -76,7 +78,7 @@ int MainMenu() {
         scanf("%d", &op);
         printf("\n");
 
-        if (op >= 0 && op <= 10) term = true;
+        if (op >= 0 && op <= 11) term = true;
         else {
             printf("opção invalida!\n");
             Pausar();

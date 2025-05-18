@@ -426,6 +426,32 @@ Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz
 }
 
 /**
+ * @brief Lê os dados do grafo presentes num ficheiro binario.
+ * 
+ * @param ficheiro Nome do ficheiro.
+ * @param grafoHead Inicio da lista das antenas.
+ * @param matriz Dados da matriz.
+ * @return Antena* Inicio da lista atualizada.
+ */
+Antena* LerAntenasBin(char* ficheiro, Antena* grafoHead, DadosMatriz matriz) {
+    FILE* fp = fopen(ficheiro, "rb");
+    if (!fp) return grafoHead;
+
+    grafoHead = DestroiAntenas(grafoHead);
+
+    DadosAntena dadosTemp;
+    while (fread(&dadosTemp, sizeof(DadosAntena), 1, fp) == 1) {
+        if (CabeNaMatriz(matriz, dadosTemp.x, dadosTemp.y)) {
+            Antena* aux = CriaAntena(dadosTemp);
+            grafoHead = InsereAntenaOrdenado(grafoHead, aux);
+        }
+    }
+    fclose(fp);
+
+    return grafoHead;
+}
+
+/**
  * @brief Guarda a matriz e as antenas num ficheiro de texto.
  * 
  * @param ficheiro Nome do ficheiro.
@@ -449,6 +475,33 @@ bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz
             fprintf(fp, "%c", temp);
         }
         fprintf(fp, "\n");
+    }
+    fclose(fp);
+
+    return true;
+}
+
+/**
+ * @brief Guarda os dados do grafo num ficheiro binario.
+ * 
+ * @param ficheiro Nome do ficheiro.
+ * @param grafoHead Inicio da lista das antenas.
+ * @return true Se conseguiu guardar.
+ * @return false Se não conseguiu guardar.
+ */
+bool GuardarAntenasBin(char* ficheiro, Antena* grafoHead) {
+    if (!grafoHead) return false;
+
+    FILE* fp = fopen(ficheiro, "wb");
+    if (!fp) return false;
+
+    Antena* aux = grafoHead;
+    while (aux) {
+        if (fwrite(&(aux->dados), sizeof(DadosAntena), 1, fp) != 1) {
+            fclose(fp);
+            return false;
+        }
+        aux = aux->next;
     }
     fclose(fp);
 
