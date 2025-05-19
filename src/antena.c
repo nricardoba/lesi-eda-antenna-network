@@ -346,13 +346,20 @@ bool CausaAdj(Antena* a, Antena* b) {
     // se não tiverem a mesma frequencia, não ha adj
     if (a->dados.freq != b->dados.freq) return false;
 
+    // valor absoluto
+    int difX = abs(a->dados.x - b->dados.x);
+    int difY = abs(a->dados.y - b->dados.y);
+    
+    // verificar se a distância causa adjacência
+    if (difX + difY > DIS_NEF) return false; 
+
     return true;
 }
 
 /**
  * @brief Gera a lista de adjacências para todas as antenas.
  * 
- * @param grafoHead Inicio da lista de adjacências de uma antena.
+ * @param grafoHead Inicio da lista das antenas.
  * @return true Caso gere a lista com sucesso.
  * @return false Caso não exista lista.
  */
@@ -380,7 +387,7 @@ bool GeraAdj(Antena* grafoHead) {
 /**
  * @brief Remove uma antena das listas de adjacências das outras antenas.
  * 
- * @param grafoHead Inicio da lista de adjacências de uma antena.
+ * @param grafoHead Inicio da lista das antenas.
  * @param alvo Antena a remover.
  * @return true Se conseguiu remover com sucesso.
  * @return false Se não existe grafo ou lista de adjacências da antena pretendida.

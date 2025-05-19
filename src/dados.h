@@ -96,4 +96,9 @@ typedef struct VerticeStack {
     struct VerticeStack* next;
 } VerticeStack;
 
+typedef struct VerticeQueue {
+    struct Antena* antena;
+    struct VerticeQueue* next;
+} VerticeQueue;
+
 #pragma endregion

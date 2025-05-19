@@ -11,7 +11,14 @@
 
 #include "includes.h"
 
+VerticeQueue* QueuePush(VerticeQueue* tail, Antena* atual);
+Antena* QueuePop(VerticeQueue** head);
+bool VisitaAdjBFS(Antena* grafoHead, Antena* inicio);
+bool PerguntaVisitaBFS(Antena* grafoHead);
+
+VerticeStack* StackPush(VerticeStack* head, Antena* atual);
+Antena* StackPop(VerticeStack** head);
 bool VisitaAdjDFS(Antena* grafoHead, Antena* inicio);
-VerticeStack* StackPush(VerticeStack* topo, Antena* atual);
-Antena* StackPop(VerticeStack** topo);
+bool PerguntaVisitaDFS(Antena* grafoHead);
+
 bool ResetVisitados(Antena* grafoHead);

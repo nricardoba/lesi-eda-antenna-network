@@ -122,13 +122,21 @@ int main() {
                     EscolheMostraNefasto(grafoHead);
                     break;
                 case 10:
+                    // mostra as antenas alcançadas atravez da procura em largura
+                    PerguntaVisitaBFS(grafoHead);
+                    break;
+                case 11:
+                    // mostra as antenas alcançadas atravez da procura em profundidade
+                    PerguntaVisitaDFS(grafoHead);
+                    break;
+                case 12:
                     // guardar num ficheiro binario os dados do grafo
                     if (GuardarAntenasBin("grafo.bin", grafoHead))
                         printf("dados guardados com sucesso!\n");
                     else
                         printf("não foi possivel guardar os dados!\n");
                     break;
-                case 11:
+                case 13:
                     // guardar num ficheiro de texto a mariz apenas com as antenas
                     if (GuardarFicheiroMatriz("antenas.txt", grafoHead, matriz))
                         printf("dados guardados com sucesso!\n");
