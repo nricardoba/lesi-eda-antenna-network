@@ -3,3 +3,5 @@
 src/prog
 src/*.o
 outros
+prog.dSYM
+prog
