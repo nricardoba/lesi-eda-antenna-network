@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 src/prog
+src/grafo.bin
 src/*.o
 outros
 prog.dSYM

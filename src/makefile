@@ -13,4 +13,4 @@ run: prog
 	./prog
 
 clean:
-	rm prog *.o
+	rm prog *.o *.bin
