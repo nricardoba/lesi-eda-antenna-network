@@ -1,21 +1,21 @@
-# Projeto EDA - Gestão de Antenas e Efeitos Nefastos
+# EDA Project - Antenna Management and Adverse Effects
 
-## Descrição
+## Description
 
-Este projeto, desenvolvido para a unidade curricular de Estruturas de Dados Avançadas (EDA), consiste numa aplicação em C para gerir uma rede de antenas, as suas adjacências e efeitos nefastos. Permite criar, remover e pesquisar antenas, gerar e visualizar ligações, realizar travessias em largura (BFS) e profundidade (DFS), e analisar efeitos nefastos na rede.
+This project, developed for the Advanced Data Structures (Estruturas de Dados Avançadas) course, is a C application for managing an antenna network, its adjacencies, and adverse effects. It allows creating, removing, and searching antennas, generating and viewing connections, performing breadth-first (BFS) and depth-first (DFS) traversals, and analyzing adverse effects across the network.
 
-## Funcionalidades
+## Features
 
-- **Gestão de Antenas:** Inserção, remoção, pesquisa e listagem de antenas.
-- **Adjacências:** Geração e visualização de ligações entre antenas.
-- **Efeitos Nefastos:** Identificação e visualização de efeitos nefastos entre antenas.
-- **Travessias no Grafo:** Procura em largura (BFS) e profundidade (DFS) a partir de qualquer antena.
-- **Persistência:** Leitura e escrita de dados em ficheiros binários.
-- **Interface Terminal:** Menus interativos para todas as operações.
+- **Antenna Management:** Insertion, removal, search, and listing of antennas.
+- **Adjacencies:** Generation and visualization of connections between antennas.
+- **Adverse Effects:** Identification and visualization of adverse effects between antennas.
+- **Graph Traversals:** Breadth-first search (BFS) and depth-first search (DFS) from any antenna.
+- **Persistence:** Reading and writing data to binary files.
+- **Terminal Interface:** Interactive menus for all operations.
 
-## Compilação
+## Building
 
-Para compilar o projeto, usa o `makefile` fornecido na pasta `src`:
+To build the project, use the `makefile` provided in the `src` folder:
 
 ```sh
 cd src
