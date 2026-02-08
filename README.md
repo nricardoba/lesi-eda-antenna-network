@@ -20,3 +20,8 @@ To build the project, use the `makefile` provided in the `src` folder:
 ```sh
 cd src
 make
+```
+
+## Grade
+
+This project received a grade of **16 out of 20**.
