@@ -1,34 +1,35 @@
 /**
  * @file termio.h
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Headerfile do ficheiro "termio.c".
+ * @brief Header file for termio.c.
  * @version 0.1
  * @date 18-05-2025
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #include "includes.h"
 
-Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz);
-Antena* PerguntaRemoveAntena(Antena* grafoHead);
-Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz);
-bool MostraListaAntenas(Antena* grafoHead);
-bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz);
+Antenna *CreateInsertAntenna(Antenna *graphHead, MatrixData matrix);
+Antenna *PromptRemoveAntenna(Antenna *graphHead);
+Antenna *EditAntenna(Antenna *graphHead, MatrixData matrix);
+bool ShowAntennaList(Antenna *graphHead);
+bool ShowAntennaMatrix(Antenna *graphHead, MatrixData matrix);
 
-bool MostraListaAdj(Antena* alvo);
-bool EscolheMostraAdj(Antena* grafoHead);
+bool ShowAdjacencyList(Antenna *target);
+bool PromptShowAdjacencies(Antenna *graphHead);
 
-bool MostraListaNefasto(Antena* alvo);
-bool EscolheMostraNefasto(Antena* grafoHead);
-bool MostraTodosNefastos(Antena* grafoHead);
-bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz);
+bool ShowAdverseEffectList(Antenna *target);
+bool PromptShowAdverseEffects(Antenna *graphHead);
+bool ShowAllAdverseEffects(Antenna *graphHead);
+bool ShowAdverseEffectMatrix(Antenna *graphHead, MatrixData matrix);
 
-Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz);
-Antena* LerAntenasBin(char* ficheiro, Antena* grafoHead, DadosMatriz matriz);
-bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz);
-bool GuardarAntenasBin(char* ficheiro, Antena* grafoHead);
+Antenna *ReadMatrixFile(char *filename, Antenna *graphHead, MatrixData *matrix);
+Antenna *ReadAntennasBinary(char *filename, Antenna *graphHead,
+                            MatrixData matrix);
+bool SaveMatrixFile(char *filename, Antenna *graphHead, MatrixData matrix);
+bool SaveAntennasBinary(char *filename, Antenna *graphHead);
 
-DadosMatriz CriaMatriz(DadosMatriz matriz);
-Coordenadas PedeCoordenadas(char* mensagem);
+MatrixData CreateMatrix(MatrixData matrix);
+Coordinates PromptCoordinates(char *message);

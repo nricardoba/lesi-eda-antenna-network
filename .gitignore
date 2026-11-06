@@ -1,9 +1,9 @@
 .DS_Store
 .vscode
 src/prog
-src/grafo.bin
+src/graph.bin
 src/*.o
-outros
+others
 prog.dSYM
 prog
 Doxyfile

@@ -1,153 +1,160 @@
 /**
  * @file termio.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Ficheiro que gere as funções de input e output no terminal do projeto.
+ * @brief File that handles the project's terminal input and output functions.
  * @version 0.1
  * @date 18-05-2025
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #include "includes.h"
 
-#pragma region Antenas
+#pragma region Antennas
 
 /**
- * @brief Pede as coordenadas de uma antena e se for possivel, cria e insere essa antena.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return Antena* Inicio da lista atualizada.
+ * @brief Prompts for an antenna's coordinates and, if possible, creates and
+ * inserts it.
+ *
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return Antenna* Head of the updated list.
  */
-Antena* CriaInsereAntena(Antena* grafoHead, DadosMatriz matriz) {
-    Coordenadas coorTemp = PedeCoordenadas("Coordenadas:\n");
+Antenna *CreateInsertAntenna(Antenna *graphHead, MatrixData matrix) {
+    Coordinates tempCoordinates = PromptCoordinates("Coordinates:\n");
 
-    if (EncontraAntena(grafoHead, coorTemp.x, coorTemp.y) || !CabeNaMatriz(matriz, coorTemp.x, coorTemp.y)) {
-        printf("Coordenadas Invalidas!\n");
-        return grafoHead;
+    if (FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y) ||
+        !FitsInMatrix(matrix, tempCoordinates.x, tempCoordinates.y)) {
+        printf("Invalid coordinates!\n");
+        return graphHead;
     }
 
-    DadosAntena dadosTemp;
-    dadosTemp.x = coorTemp.x;
-    dadosTemp.y = coorTemp.y;
+    AntennaData tempData;
+    tempData.x = tempCoordinates.x;
+    tempData.y = tempCoordinates.y;
 
-    printf("frequencia: ");
-    LimpaBuffer();
-    scanf("%c", &dadosTemp.freq);
+    printf("Frequency: ");
+    ClearInputBuffer();
+    scanf("%c", &tempData.freq);
 
-    if (!ValidaCharAntena(dadosTemp.freq)) {
-        printf("frequencia invalida!\n");
-        return grafoHead;
+    if (!IsValidAntennaChar(tempData.freq)) {
+        printf("Invalid frequency!\n");
+        return graphHead;
     }
 
-    Antena* aux = CriaAntena(dadosTemp);
-    grafoHead = InsereAntenaOrdenado(grafoHead, aux);
+    Antenna *aux = CreateAntenna(tempData);
+    graphHead = InsertAntennaSorted(graphHead, aux);
 
-    return grafoHead;
+    return graphHead;
 }
 
 /**
- * @brief Pede as coordenadas de uma antena e se for possivel, remove essa antena.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @return Antena* Inicio da lista atualizada.
+ * @brief Prompts for an antenna's coordinates and, if possible, removes it.
+ *
+ * @param graphHead Head of the antenna list.
+ * @return Antenna* Head of the updated list.
  */
-Antena* PerguntaRemoveAntena(Antena* grafoHead) {
-    if (!grafoHead) {
-        printf("não existe uma lista!\n");
+Antenna *PromptRemoveAntenna(Antenna *graphHead) {
+    if (!graphHead) {
+        printf("No antenna list exists!\n");
         return NULL;
     }
 
-    Coordenadas coorTemp = PedeCoordenadas("que antena pretende remover?\n");
-    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+    Coordinates tempCoordinates =
+        PromptCoordinates("Which antenna do you want to remove?\n");
+    Antenna *aux = FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y);
 
     if (!aux) {
-        printf("não existe nenhuma antena com essas coordenadas!\n");
-        return grafoHead;
+        printf("No antenna exists at those coordinates!\n");
+        return graphHead;
     }
 
-    RemoveOutrasAdj(grafoHead, aux);
-    RemoveOutrosNefastos(grafoHead, aux);
-    grafoHead = RemoveAntena(grafoHead, aux);
+    RemoveOtherAdjacencies(graphHead, aux);
+    RemoveOtherAdverseEffects(graphHead, aux);
+    graphHead = RemoveAntenna(graphHead, aux);
 
-    printf("antena removida com sucesso!\n");
-    
-    return grafoHead;
+    printf("Antenna removed successfully!\n");
+
+    return graphHead;
 }
 
 /**
- * @brief Se for possivel, altera as informações de uma antena.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return Antena* Inicio da lista atualizada.
+ * @brief Updates an antenna's information, if possible.
+ *
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return Antenna* Head of the updated list.
  */
-Antena* AlteraAntena(Antena* grafoHead, DadosMatriz matriz) {
-    if (!grafoHead) {
-        printf("não existe uma lista!\n");
+Antenna *EditAntenna(Antenna *graphHead, MatrixData matrix) {
+    if (!graphHead) {
+        printf("No antenna list exists!\n");
         return NULL;
     }
 
-    Coordenadas coorTemp = PedeCoordenadas("que antena pretende alterar?");
-    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+    Coordinates tempCoordinates =
+        PromptCoordinates("Which antenna do you want to edit?");
+    Antenna *aux = FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y);
 
     if (!aux) {
-        printf("não existe nenhuma antena com essas coordenadas!\n");
-        return grafoHead;
+        printf("No antenna exists at those coordinates!\n");
+        return graphHead;
     }
 
-    coorTemp = PedeCoordenadas("Novos dados da antena:");
-    if (!CabeNaMatriz(matriz, coorTemp.x, coorTemp.y) || EncontraAntena(grafoHead, coorTemp.x, coorTemp.y)) {
-        printf("coordenadas invalidas!\n");
-        return grafoHead;
+    tempCoordinates = PromptCoordinates("New antenna data:");
+    if (!FitsInMatrix(matrix, tempCoordinates.x, tempCoordinates.y) ||
+        FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y)) {
+        printf("Invalid coordinates!\n");
+        return graphHead;
     }
 
     char freqTemp;
-    printf("frequencia: ");
-    LimpaBuffer();
+    printf("Frequency: ");
+    ClearInputBuffer();
     scanf("%c", &freqTemp);
     printf("\n");
 
-    if (!ValidaCharAntena(freqTemp)) {
-        printf("frequencia invalida!\n");
-        return grafoHead;
+    if (!IsValidAntennaChar(freqTemp)) {
+        printf("Invalid frequency!\n");
+        return graphHead;
     }
 
-    RemoveOutrasAdj(grafoHead, aux);
-    RemoveOutrosNefastos(grafoHead, aux);
-    aux->adjHead = DestroiAdj(aux->adjHead);
-    aux->nefHead = DestroiNefasto(aux->nefHead);
+    RemoveOtherAdjacencies(graphHead, aux);
+    RemoveOtherAdverseEffects(graphHead, aux);
+    aux->adjHead = DestroyAdjacencies(aux->adjHead);
+    aux->effectHead = DestroyAdverseEffects(aux->effectHead);
 
-    // atribuir novos valores
-    aux->dados.x = coorTemp.x;
-    aux->dados.y = coorTemp.y;
-    aux->dados.freq = freqTemp;
+    // assign new values
+    aux->data.x = tempCoordinates.x;
+    aux->data.y = tempCoordinates.y;
+    aux->data.freq = freqTemp;
 
-    GeraAdj(grafoHead);
-    GeraNefasto(grafoHead, matriz);
+    GenerateAdjacencies(graphHead);
+    GenerateAdverseEffects(graphHead, matrix);
 
-    printf("dados alterados com sucesso!\n");
+    printf("Data updated successfully!\n");
 
-    return grafoHead;
+    return graphHead;
 }
 
 /**
- * @brief Mostra a informação de todas as antenas presentes no grafo.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @return true Se existe pelo menos uma antena.
- * @return false Se não existe grafo.
+ * @brief Displays information about all antennas in the graph.
+ *
+ * @param graphHead Head of the antenna list.
+ * @return true If at least one antenna exists.
+ * @return false If the graph does not exist.
  */
-bool MostraListaAntenas(Antena* grafoHead) {
-    // não ha nada para mostrar
-    if (!grafoHead) return false;
+bool ShowAntennaList(Antenna *graphHead) {
+    // there is nothing to display
+    if (!graphHead)
+        return false;
 
-    Antena* aux = grafoHead;
-    int contador = 1;
+    Antenna *aux = graphHead;
+    int count = 1;
 
     while (aux) {
-        printf("[%d]: %c --> x: %d, y: %d\n", contador++, aux->dados.freq, aux->dados.x, aux->dados.y);
+        printf("[%d]: %c --> x: %d, y: %d\n", count++, aux->data.freq,
+               aux->data.x, aux->data.y);
         aux = aux->next;
     }
 
@@ -155,36 +162,44 @@ bool MostraListaAntenas(Antena* grafoHead) {
 }
 
 /**
- * @brief Mostra no terminal a matriz sem o efeito nefasto.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return true Se conseguiu mostrar com sucesso.
- * @return false Se os dados da matriz são invalidos.
+ * @brief Displays the matrix in the terminal without adverse effects.
+ *
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return true If the matrix was displayed successfully.
+ * @return false If the matrix data is invalid.
  */
-bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
-    if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
+bool ShowAntennaMatrix(Antenna *graphHead, MatrixData matrix) {
+    if (matrix.rows <= 0 || matrix.columns <= 0)
+        return false;
 
-    // mostrar o numero de linhas
+    // display the column numbers
     printf("  ");
-    for (int n = 1; n <= matriz.colunas; n++) {
-        if (n < 10) printf("  %d", n);
-        else if (n >= 10 && n < 100) printf(" %d", n);
-        else printf("  ?");
+    for (int n = 1; n <= matrix.columns; n++) {
+        if (n < 10)
+            printf("  %d", n);
+        else if (n >= 10 && n < 100)
+            printf(" %d", n);
+        else
+            printf("  ?");
     }
     printf("\n");
 
-    for (int i = 1; i <= matriz.linhas; i++) {
+    for (int i = 1; i <= matrix.rows; i++) {
 
-        if (i < 10) printf(" %d", i);
-        else if (i >= 10 && i < 100) printf("%d", i);
-        else printf(" ?");
+        if (i < 10)
+            printf(" %d", i);
+        else if (i >= 10 && i < 100)
+            printf("%d", i);
+        else
+            printf(" ?");
 
-        for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* aux = EncontraAntena(grafoHead, i, j);
+        for (int j = 1; j <= matrix.columns; j++) {
+            Antenna *aux = FindAntenna(graphHead, i, j);
 
-            char temp = VAZIO;
-            if (aux) temp = aux->dados.freq;
+            char temp = EMPTY;
+            if (aux)
+                temp = aux->data.freq;
             printf("  %c", temp);
         }
         printf("\n");
@@ -195,24 +210,27 @@ bool MostraMatrizAntenas(Antena* grafoHead, DadosMatriz matriz) {
 }
 
 #pragma endregion
-#pragma region Adj
+#pragma region Adjacencies
 
 /**
- * @brief Mostra a lista de adjuntas de uma antena.
- * 
- * @param alvo Antena que pretendemos mostrar a lista de adj.
- * @return true Se conseguiu mostrar.
- * @return false Se não existe grafo ou lista de adjuntas.
+ * @brief Displays an antenna's adjacency list.
+ *
+ * @param target Antenna whose adjacency list is to be displayed.
+ * @return true If the list was displayed successfully.
+ * @return false If the graph or adjacency list does not exist.
  */
-bool MostraListaAdj(Antena* alvo) {
-    if (!alvo || !alvo->adjHead) return false;
+bool ShowAdjacencyList(Antenna *target) {
+    if (!target || !target->adjHead)
+        return false;
 
-    Adj* aux = alvo->adjHead;
-    int contador = 1;
+    Adjacency *aux = target->adjHead;
+    int count = 1;
 
-    printf("Todas as Adjacencias de (%c) --> x: %d, y: %d\n", alvo->dados.freq, alvo->dados.x, alvo->dados.y);
+    printf("All adjacencies of (%c) --> x: %d, y: %d\n", target->data.freq,
+           target->data.x, target->data.y);
     while (aux) {
-        printf("  [%d] %c --> x: %d, y: %d\n", contador++, aux->dados.freq, aux->dados.x, aux->dados.y);
+        printf("  [%d] %c --> x: %d, y: %d\n", count++, aux->data.freq,
+               aux->data.x, aux->data.y);
         aux = aux->next;
     }
 
@@ -220,25 +238,28 @@ bool MostraListaAdj(Antena* alvo) {
 }
 
 /**
- * @brief Pede a informação de uma antena e mostra as suas adjacências no terminal.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @return true Se conseguiu mostrar.
- * @return false Se não foi possivel mostrar.
+ * @brief Prompts for an antenna's information and displays its adjacencies in
+ * the terminal.
+ *
+ * @param graphHead Head of the antenna list.
+ * @return true If the adjacencies were displayed successfully.
+ * @return false If the adjacencies could not be displayed.
  */
-bool EscolheMostraAdj(Antena* grafoHead) {
-    if (!grafoHead) return false;
+bool PromptShowAdjacencies(Antenna *graphHead) {
+    if (!graphHead)
+        return false;
 
-    Coordenadas coorTemp = PedeCoordenadas("De que antena pretende mostrar as Adjacencias?");
-    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+    Coordinates tempCoordinates = PromptCoordinates(
+        "Which antenna's adjacencies do you want to display?");
+    Antenna *aux = FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y);
 
     if (!aux) {
-        printf("não existe uma antena com essas coordenadas!\n");
+        printf("No antenna exists at those coordinates!\n");
         return false;
     }
 
-    if (!MostraListaAdj(aux)) {
-        printf("essa antena não tem efeitos nefastos!\n");
+    if (!ShowAdjacencyList(aux)) {
+        printf("That antenna has no adjacencies!\n");
         return false;
     }
 
@@ -246,24 +267,28 @@ bool EscolheMostraAdj(Antena* grafoHead) {
 }
 
 #pragma endregion
-#pragma region Nefasto
+#pragma region Adverse Effects
 
 /**
- * @brief Mostra a lista do efeito nefasto de uma antena pretendida.
- * 
- * @param alvo Antena a mostrar o efeito nefasto.
- * @return true Se consegui mostrar.
- * @return false Se não existe grafo ou lista de nefasto da antena pretendida.
+ * @brief Displays the adverse effect list of the selected antenna.
+ *
+ * @param target Antenna whose adverse effects are to be displayed.
+ * @return true If the list was displayed successfully.
+ * @return false If the graph or the selected antenna's adverse effect list does
+ * not exist.
  */
-bool MostraListaNefasto(Antena* alvo) {
-    if (!alvo || !alvo->nefHead) return false;
+bool ShowAdverseEffectList(Antenna *target) {
+    if (!target || !target->effectHead)
+        return false;
 
-    Nefasto* aux = alvo->nefHead;
-    int contador = 1;
+    AdverseEffect *aux = target->effectHead;
+    int count = 1;
 
-    printf("Todas os Efeitos Nefastos de (%c) --> x: %d, y: %d\n", alvo->dados.freq, alvo->dados.x, alvo->dados.y);
+    printf("All adverse effects of (%c) --> x: %d, y: %d\n", target->data.freq,
+           target->data.x, target->data.y);
     while (aux) {
-        printf("  [%d] %c --> x: %d, y: %d\n", contador++, NEF, aux->dados.x, aux->dados.y);
+        printf("  [%d] %c --> x: %d, y: %d\n", count++, ADVERSE_EFFECT,
+               aux->data.x, aux->data.y);
         aux = aux->next;
     }
 
@@ -271,25 +296,28 @@ bool MostraListaNefasto(Antena* alvo) {
 }
 
 /**
- * @brief Pede a informação de uma antena e mostra a sua lista de efeito nefasto no terminal.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @return true Se conseguiu mostrar.
- * @return false Se não foi possivel mostrar.
+ * @brief Prompts for an antenna's information and displays its adverse effect
+ * list in the terminal.
+ *
+ * @param graphHead Head of the antenna list.
+ * @return true If the list was displayed successfully.
+ * @return false If the list could not be displayed.
  */
-bool EscolheMostraNefasto(Antena* grafoHead) {
-    if (!grafoHead) return false;
+bool PromptShowAdverseEffects(Antenna *graphHead) {
+    if (!graphHead)
+        return false;
 
-    Coordenadas coorTemp = PedeCoordenadas("De que antena quer mostrar o efeito nefasto?");
-    Antena* aux = EncontraAntena(grafoHead, coorTemp.x, coorTemp.y);
+    Coordinates tempCoordinates = PromptCoordinates(
+        "Which antenna's adverse effects do you want to display?");
+    Antenna *aux = FindAntenna(graphHead, tempCoordinates.x, tempCoordinates.y);
 
     if (!aux) {
-        printf("não existe uma antena com essas coordenadas!\n");
+        printf("No antenna exists at those coordinates!\n");
         return false;
     }
 
-    if (!MostraListaNefasto(aux)) {
-        printf("essa antena não tem efeitos nefastos!\n");
+    if (!ShowAdverseEffectList(aux)) {
+        printf("That antenna has no adverse effects!\n");
         return false;
     }
 
@@ -297,18 +325,19 @@ bool EscolheMostraNefasto(Antena* grafoHead) {
 }
 
 /**
- * @brief Mostra a lista de efeito nefasto de todas as antenas do grafo.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @return true Se conseguiu mostrar.
- * @return false Se não existe grafo.
+ * @brief Displays the adverse effect lists of all antennas in the graph.
+ *
+ * @param graphHead Head of the antenna list.
+ * @return true If the lists were displayed successfully.
+ * @return false If the graph does not exist.
  */
-bool MostraTodosNefastos(Antena* grafoHead) {
-    if (!grafoHead) return false;
+bool ShowAllAdverseEffects(Antenna *graphHead) {
+    if (!graphHead)
+        return false;
 
-    Antena* aux = grafoHead;
+    Antenna *aux = graphHead;
     while (aux) {
-        MostraListaNefasto(aux);
+        ShowAdverseEffectList(aux);
         printf("\n");
 
         aux = aux->next;
@@ -318,39 +347,49 @@ bool MostraTodosNefastos(Antena* grafoHead) {
 }
 
 /**
- * @brief Mostra no terminal a matriz completa.
- * 
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return true Se conseguiu mostrar com sucesso.
- * @return false Se os dados da matriz são invalidos.
+ * @brief Displays the complete matrix in the terminal.
+ *
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return true If the matrix was displayed successfully.
+ * @return false If the matrix data is invalid.
  */
-bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
-    if (matriz.linhas <= 0 || matriz.colunas <= 0) return false;
+bool ShowAdverseEffectMatrix(Antenna *graphHead, MatrixData matrix) {
+    if (matrix.rows <= 0 || matrix.columns <= 0)
+        return false;
 
-    // mostrar o numero de linhas
+    // display the column numbers
     printf("  ");
-    for (int n = 1; n <= matriz.colunas; n++) {
-        if (n < 10) printf("  %d", n);
-        else if (n >= 10 && n < 100) printf(" %d", n);
-        else printf("  ?");
+    for (int n = 1; n <= matrix.columns; n++) {
+        if (n < 10)
+            printf("  %d", n);
+        else if (n >= 10 && n < 100)
+            printf(" %d", n);
+        else
+            printf("  ?");
     }
     printf("\n");
 
-    for (int i = 1; i <= matriz.linhas; i++) {
+    for (int i = 1; i <= matrix.rows; i++) {
 
-        if (i < 10) printf(" %d", i);
-        else if (i >= 10 && i < 100) printf("%d", i);
-        else printf(" ?");
+        if (i < 10)
+            printf(" %d", i);
+        else if (i >= 10 && i < 100)
+            printf("%d", i);
+        else
+            printf(" ?");
 
-        for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* aux = EncontraAntena(grafoHead, i, j);
-            bool condTemp = ExisteNefasto(grafoHead, i, j);
+        for (int j = 1; j <= matrix.columns; j++) {
+            Antenna *aux = FindAntenna(graphHead, i, j);
+            bool hasEffect = HasAdverseEffect(graphHead, i, j);
 
-            char temp = VAZIO;
-            if (aux && condTemp) temp = SBP;
-            else if (aux) temp = aux->dados.freq;
-            else if (condTemp) temp = NEF;
+            char temp = EMPTY;
+            if (aux && hasEffect)
+                temp = OVERLAP;
+            else if (aux)
+                temp = aux->data.freq;
+            else if (hasEffect)
+                temp = ADVERSE_EFFECT;
             printf("  %c", temp);
         }
         printf("\n");
@@ -361,117 +400,125 @@ bool MostraMatrizNefasto(Antena* grafoHead, DadosMatriz matriz) {
 }
 
 #pragma endregion
-#pragma region Matriz e Ficheiro
+#pragma region Matrix and File
 
 /**
- * @brief Lê uma matriz presente num ficheiro de texto.
- * 
- * @param ficheiro Nome do ficheiro.
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return Antena* Inicio da lista atualizada.
+ * @brief Reads a matrix from a text file.
+ *
+ * @param filename File name.
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return Antenna* Head of the updated list.
  */
-Antena* LerFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz* matriz) {
-    FILE* fp = fopen(ficheiro, "rt");
-    // se não conseguimos abrir o ficheiro, devolvemos a lista tal como estava
-    if (!fp) return grafoHead;
+Antenna *ReadMatrixFile(char *filename, Antenna *graphHead,
+                        MatrixData *matrix) {
+    FILE *fp = fopen(filename, "rt");
+    // if the file cannot be opened, return the list unchanged
+    if (!fp)
+        return graphHead;
 
-    // destuir uma lista, para criar uma nova
-    grafoHead = DestroiAntenas(grafoHead);
+    // destroy the list to create a new one
+    graphHead = DestroyAntennas(graphHead);
 
-    matriz->linhas = 0;
-    matriz->colunas = 0;
-    int colunasAtual = 0;
+    matrix->rows = 0;
+    matrix->columns = 0;
+    int currentColumns = 0;
     char tempChar;
 
-    // pode vir a ser necessario
-    // LimpaBuffer();
+    // may be needed
+    // ClearInputBuffer();
 
     while ((tempChar = fgetc(fp)) != EOF) {
         if (tempChar == END_LINE) {
-            if (matriz->linhas < MAX_MATRIZ) matriz->linhas++;
+            if (matrix->rows < MAX_MATRIX)
+                matrix->rows++;
 
-            if (matriz->colunas < colunasAtual)
-                matriz->colunas = colunasAtual;
-                
-            colunasAtual = 0;
-        }
-        else if (colunasAtual < MAX_MATRIZ) {
-            colunasAtual++;
+            if (matrix->columns < currentColumns)
+                matrix->columns = currentColumns;
 
-            // acho que não é preciso verificar se já existe uma antena com as coordenadas atuais,
-            // porque estámos a criar uma lista nova
-            if (ValidaCharAntena(tempChar)) {
-                DadosAntena tempDados;
-                tempDados.x = matriz->linhas + 1;
-                tempDados.y = colunasAtual;
-                tempDados.freq = tempChar;
+            currentColumns = 0;
+        } else if (currentColumns < MAX_MATRIX) {
+            currentColumns++;
 
-                Antena* aux = CriaAntena(tempDados);
-                grafoHead = InsereAntenaOrdenado(grafoHead, aux);
+            // checking for an antenna at the current coordinates should not be
+            // necessary, because a new list is being created
+            if (IsValidAntennaChar(tempChar)) {
+                AntennaData tempData;
+                tempData.x = matrix->rows + 1;
+                tempData.y = currentColumns;
+                tempData.freq = tempChar;
+
+                Antenna *aux = CreateAntenna(tempData);
+                graphHead = InsertAntennaSorted(graphHead, aux);
             }
         }
     }
 
-    // verificar se a ultima linha não foi contada (caso o ficheiro não termine com '\n')
-    if (colunasAtual > 0 && matriz->linhas < MAX_MATRIZ) {
-        matriz->linhas++;
+    // check whether the last row was not counted (if the file does not end with
+    // '\n')
+    if (currentColumns > 0 && matrix->rows < MAX_MATRIX) {
+        matrix->rows++;
 
-        if (matriz->colunas < colunasAtual)
-            matriz->colunas = colunasAtual;
+        if (matrix->columns < currentColumns)
+            matrix->columns = currentColumns;
     }
     fclose(fp);
 
-    return grafoHead;
+    return graphHead;
 }
 
 /**
- * @brief Lê os dados do grafo presentes num ficheiro binario.
- * 
- * @param ficheiro Nome do ficheiro.
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return Antena* Inicio da lista atualizada.
+ * @brief Reads graph data from a binary file.
+ *
+ * @param filename File name.
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return Antenna* Head of the updated list.
  */
-Antena* LerAntenasBin(char* ficheiro, Antena* grafoHead, DadosMatriz matriz) {
-    FILE* fp = fopen(ficheiro, "rb");
-    if (!fp) return grafoHead;
+Antenna *ReadAntennasBinary(char *filename, Antenna *graphHead,
+                            MatrixData matrix) {
+    FILE *fp = fopen(filename, "rb");
+    if (!fp)
+        return graphHead;
 
-    grafoHead = DestroiAntenas(grafoHead);
+    graphHead = DestroyAntennas(graphHead);
 
-    DadosAntena dadosTemp;
-    while (fread(&dadosTemp, sizeof(DadosAntena), 1, fp) == 1) {
-        if (CabeNaMatriz(matriz, dadosTemp.x, dadosTemp.y)) {
-            Antena* aux = CriaAntena(dadosTemp);
-            grafoHead = InsereAntenaOrdenado(grafoHead, aux);
+    AntennaData tempData;
+    while (fread(&tempData, sizeof(AntennaData), 1, fp) == 1) {
+        if (FitsInMatrix(matrix, tempData.x, tempData.y)) {
+            Antenna *aux = CreateAntenna(tempData);
+            graphHead = InsertAntennaSorted(graphHead, aux);
         }
     }
     fclose(fp);
 
-    return grafoHead;
+    return graphHead;
 }
 
 /**
- * @brief Guarda a matriz e as antenas num ficheiro de texto.
- * 
- * @param ficheiro Nome do ficheiro.
- * @param grafoHead Inicio da lista das antenas.
- * @param matriz Dados da matriz.
- * @return true Se conseguiu guardar.
- * @return false Se não conseguiu guardar.
+ * @brief Saves the matrix and antennas to a text file.
+ *
+ * @param filename File name.
+ * @param graphHead Head of the antenna list.
+ * @param matrix Matrix data.
+ * @return true If the data was saved successfully.
+ * @return false If the data could not be saved.
  */
-bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz) {
-    if (!ValidaMatriz(matriz)) return false;
+bool SaveMatrixFile(char *filename, Antenna *graphHead, MatrixData matrix) {
+    if (!IsValidMatrix(matrix))
+        return false;
 
-    FILE* fp = fopen(ficheiro, "wt");
-    if (!fp) return false;
+    FILE *fp = fopen(filename, "wt");
+    if (!fp)
+        return false;
 
-    for (int i = 1; i <= matriz.linhas; i++) {
-        for (int j = 1; j <= matriz.colunas; j++) {
-            Antena* aux = EncontraAntena(grafoHead, i, j);
+    for (int i = 1; i <= matrix.rows; i++) {
+        for (int j = 1; j <= matrix.columns; j++) {
+            Antenna *aux = FindAntenna(graphHead, i, j);
 
-            char temp = VAZIO;
-            if (aux) temp = aux->dados.freq;
+            char temp = EMPTY;
+            if (aux)
+                temp = aux->data.freq;
             fprintf(fp, "%c", temp);
         }
         fprintf(fp, "\n");
@@ -482,22 +529,24 @@ bool GuardarFicheiroMatriz(char* ficheiro, Antena* grafoHead, DadosMatriz matriz
 }
 
 /**
- * @brief Guarda os dados do grafo num ficheiro binario.
- * 
- * @param ficheiro Nome do ficheiro.
- * @param grafoHead Inicio da lista das antenas.
- * @return true Se conseguiu guardar.
- * @return false Se não conseguiu guardar.
+ * @brief Saves graph data to a binary file.
+ *
+ * @param filename File name.
+ * @param graphHead Head of the antenna list.
+ * @return true If the data was saved successfully.
+ * @return false If the data could not be saved.
  */
-bool GuardarAntenasBin(char* ficheiro, Antena* grafoHead) {
-    if (!grafoHead) return false;
+bool SaveAntennasBinary(char *filename, Antenna *graphHead) {
+    if (!graphHead)
+        return false;
 
-    FILE* fp = fopen(ficheiro, "wb");
-    if (!fp) return false;
+    FILE *fp = fopen(filename, "wb");
+    if (!fp)
+        return false;
 
-    Antena* aux = grafoHead;
+    Antenna *aux = graphHead;
     while (aux) {
-        if (fwrite(&(aux->dados), sizeof(DadosAntena), 1, fp) != 1) {
+        if (fwrite(&(aux->data), sizeof(AntennaData), 1, fp) != 1) {
             fclose(fp);
             return false;
         }
@@ -509,39 +558,39 @@ bool GuardarAntenasBin(char* ficheiro, Antena* grafoHead) {
 }
 
 /**
- * @brief Cria uma matriz com as dimensões escolhidas pelo utilizador.
- * 
- * @param matriz Dados da matriz.
- * @return DadosMatriz Matriz atualizada.
+ * @brief Creates a matrix with dimensions chosen by the user.
+ *
+ * @param matrix Matrix data.
+ * @return MatrixData Updated matrix.
  */
-DadosMatriz CriaMatriz(DadosMatriz matriz) {
-    DadosMatriz temp;
-    printf("linhas: ");
-    scanf("%d", &temp.linhas);
-    printf("colunas: ");
-    scanf("%d", &temp.colunas);
+MatrixData CreateMatrix(MatrixData matrix) {
+    MatrixData temp;
+    printf("Rows: ");
+    scanf("%d", &temp.rows);
+    printf("Columns: ");
+    scanf("%d", &temp.columns);
 
-    if (!ValidaMatriz(temp)) {
-        matriz.linhas = 10;
-        matriz.colunas = 10;
+    if (!IsValidMatrix(temp)) {
+        matrix.rows = 10;
+        matrix.columns = 10;
 
-        return matriz;
+        return matrix;
     }
 
-    matriz = temp;
-    return matriz;
+    matrix = temp;
+    return matrix;
 }
 
 /**
- * @brief Pede umas coordenadas ao utilizador.
- * 
- * @param mensagem Mensagem para o utilizador.
- * @return Coordenadas que o utilizador escolheu.
+ * @brief Prompts the user for coordinates.
+ *
+ * @param message Message for the user.
+ * @return Coordinates chosen by the user.
  */
-Coordenadas PedeCoordenadas(char* mensagem) {
-    Coordenadas aux;
+Coordinates PromptCoordinates(char *message) {
+    Coordinates aux;
 
-    printf("%s\n", mensagem);
+    printf("%s\n", message);
     printf("x: ");
     scanf("%d", &aux.x);
     printf("y: ");

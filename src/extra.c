@@ -1,7 +1,7 @@
 /**
  * @file extra.c
  * @author Ricardo Araújo (a21150@alunos.ipca.pt)
- * @brief Ficheiro com as funções extra do projeto.
+ * @brief Utility functions for the project.
  * @version 0.1
  * @date 18-05-2025
  * 
@@ -12,35 +12,35 @@
 #include "includes.h"
 
 /**
- * @brief Função auxiliar que limpa o terminal.
+ * @brief Clears the terminal.
  * 
  */
-void LimpaTerminal() {
+void ClearTerminal() {
 
     #ifdef _WIN32           // windows
         system("cls");
     
-    #else                   // mac ou linux
+    #else                   // mac or linux
         system("clear");
         
     #endif
 }
 
 /**
- * @brief Função auxiliar que limpa o buffer do teclado.
+ * @brief Clears the keyboard input buffer.
  * 
  */
-void LimpaBuffer() {
-    // limpa o buffer do teclado
+void ClearInputBuffer() {
+    // clear the keyboard input buffer
     while (getchar() != '\n');
 }
 
 /**
- * @brief Função auxiliar que pausa o programa (espera que o utilizador precione enter para continuar).
+ * @brief Pauses the program until the user presses Enter to continue.
  * 
  */
-void Pausar() {
-    LimpaBuffer();
-    printf("\nENTER para continuar...");
+void Pause() {
+    ClearInputBuffer();
+    printf("\nENTER to continue...");
     getchar();
 }

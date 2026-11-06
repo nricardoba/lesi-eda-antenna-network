@@ -1,5 +1,5 @@
-OBJ = func.o extra.o menus.o nefasto.o termio.o antena.o travessias.o
-HEADER = includes.h dados.h func.h menus.h extra.h nefasto.h termio.h antena.h travessias.h
+OBJ = func.o extra.o menus.o adverse_effects.o termio.o antenna.o traversals.o
+HEADER = includes.h data.h func.h menus.h extra.h adverse_effects.h termio.h antenna.h traversals.h
 
 all: run
 
