@@ -4,6 +4,8 @@
 
 This project, developed for the Advanced Data Structures (EDA) course, is a C application for managing an antenna network, its adjacencies, and adverse effects. It allows creating, removing, and searching antennas, generating and viewing connections, performing breadth-first (BFS) and depth-first (DFS) traversals, and analyzing adverse effects across the network.
 
+**Final grade: 16/20.**
+
 ## Features
 
 - **Antenna Management:** Insertion, removal, search, and listing of antennas.
@@ -33,6 +35,6 @@ Run the application from `src`, since data file paths are relative to the workin
 
 The matrix uses `#` for adverse effects and `@` where an antenna and an adverse effect overlap. Coordinates are 1-based: `x` is the row and `y` is the column.
 
-## Grade
+## Academic Context
 
-This project received a grade of **16 out of 20**.
+Developed for the **Object-Oriented Programming** course, with a final grade of **16 out of 20**.
