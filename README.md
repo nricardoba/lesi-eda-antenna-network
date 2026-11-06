@@ -37,4 +37,4 @@ The matrix uses `#` for adverse effects and `@` where an antenna and an adverse 
 
 ## Academic Context
 
-Developed for the **Object-Oriented Programming** course, with a final grade of **16 out of 20**.
+Developed for the **Advanced Data Structures** course, with a final grade of **16 out of 20**.
